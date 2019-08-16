@@ -11,9 +11,12 @@ import { ServicesPageComponent } from './services-page/services-page.component';
 import { ConventionsPageComponent } from './conventions-page/conventions-page.component';
 import { JuridicPageComponent } from './juridic-page/juridic-page.component';
 import { NewsPageComponent } from './news-page/news-page.component';
+import { FooterComponent } from './footer/footer.component';
+import { InstitutionalInfoPageComponent } from './institutional-info-page/institutional-info-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
 
 @NgModule({
-	declarations: [ AppComponent, NavbarComponent, HomePageComponent, InstitutionalPageComponent, ServicesPageComponent, ConventionsPageComponent, JuridicPageComponent, NewsPageComponent ],
+	declarations: [ AppComponent, NavbarComponent, HomePageComponent, InstitutionalPageComponent, ServicesPageComponent, ConventionsPageComponent, JuridicPageComponent, NewsPageComponent, FooterComponent, InstitutionalInfoPageComponent, LoginPageComponent ],
 	imports: [ BrowserModule, AppRoutingModule, NgbModule ],
 	providers: [],
 	bootstrap: [ AppComponent ],

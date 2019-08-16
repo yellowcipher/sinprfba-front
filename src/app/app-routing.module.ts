@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
 import { InstitutionalPageComponent } from './institutional-page/institutional-page.component';
+import { InstitutionalInfoPageComponent } from './institutional-info-page/institutional-info-page.component';
 import { ServicesPageComponent } from './services-page/services-page.component';
 import { ConventionsPageComponent } from './conventions-page/conventions-page.component';
 import { JuridicPageComponent } from './juridic-page/juridic-page.component';
@@ -18,8 +20,16 @@ const routes: Routes = [
 		component: HomePageComponent,
 	},
 	{
+		path: 'login',
+		component: LoginPageComponent,
+	},
+	{
 		path: 'institutional',
 		component: InstitutionalPageComponent,
+	},
+	{
+		path: 'institutional-info',
+		component: InstitutionalInfoPageComponent,
 	},
 	{
 		path: 'services',

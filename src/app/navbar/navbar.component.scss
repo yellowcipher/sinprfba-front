@@ -1,0 +1,38 @@
+.clean-navbar .navbar-nav .nav-link {
+  font-weight: 600;
+  font-size: .8rem;
+  text-transform: uppercase
+}
+
+.clean-navbar.fixed-bottom,
+.clean-navbar.fixed-top {
+  box-shadow: 0 0 15px rgba(0, 0, 0, .1)
+}
+
+.clean-navbar .navbar-nav .nav-item {
+  padding-right: 2rem
+}
+
+.clean-navbar .navbar-nav:last-child .item:last-child,
+.clean-navbar .navbar-nav:last-child .item:last-child a {
+  padding-right: 0
+}
+
+.clean-navbar .logo {
+  font-size: 1.5rem
+}
+
+.clean-navbar.fixed-top+.page {
+  padding-top: 62px
+}
+
+@media (min-width: 576px) {
+  .navbar {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem
+  }
+
+  .clean-navbar.fixed-top+.page {
+    padding-top: 5rem
+  }
+}
