@@ -28,10 +28,10 @@
   </ng-template>
 </ngb-carousel>
 
-<section data-aos="fade-up" style="padding:200px 0px 100px 0px;">
-  <div class="container" style="padding:0 300;">
+<section class="my-5">
+  <div class="container">
     <div class="row">
-      <div class="col">
+      <div class="col-sm-12 col-lg">
         <h3 style="margin:0px;">Mensagem institucional</h3>
         <p><em>01.01.000 12h00</em></p>
         <p style="margin:0px;">Aliquam consequat lorem</p>
@@ -45,8 +45,8 @@
             adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
         </div>
       </div>
-      <div class="col"><img class="img-thumbnail" [src]="images[0]"></div>
-      <div class="col">
+      <div class="col-sm-12 col-lg"><img class="img-thumbnail" [src]="images[0]"></div>
+      <div class="col-sm-12 col-lg">
         <ngb-carousel *ngIf="images">
           <ng-template ngbSlide>
             <div class="picsum-img-wrapper">
@@ -81,39 +81,37 @@
   </div>
 </section>
 
-<section data-aos="fade-up" data-aos-delay="50"
-  style="height:78px;background-color:rgba(15,189,227,0);padding:0px 200px;">
-  <div class="container-fluid" style="padding:0px 200px;background-color:#0fbde3;height:115px;">
-    <div class="row">
-      <div class="col" style="height:89px;"></div>
+<section>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-10" style="background-color:#0fbde3;height:115px;"></div>
     </div>
   </div>
 </section>
 
-<section data-aos="fade-up" data-aos-delay="50" style="padding:150px 0px 0px 0px;">
+<section class="pt-5">
   <div class="container">
     <div class="row">
-      <div class="col">
-        <div class="row">
-          <div class="col"><img [src]="images[0]" height="350">
-            <h3 style="margin:0px;">Aliquam consequat lorem</h3>
-            <p style="margin:0px;">Aliquam consequat lorem</p>
-            <p><em>01.01.000 12h00</em></p>
-            <div class="getting-started-info">
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur
-                adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.Lorem ipsum dolor sit amet,
-                consectetur adipisicing
-                elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur
-                adipisicing elit.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet,
-                consectetur
-                adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-            </div>
-          </div>
+      <div class="col-sm-12 col-lg-6">
+        <img [src]="images[0]" class="img-fluid" style="max-height: 350px;">
+        <h3 style="margin:0px;">Aliquam consequat lorem</h3>
+        <p style="margin:0px;">Aliquam consequat lorem</p>
+        <p><em>01.01.000 12h00</em></p>
+        <div class="getting-started-info">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur
+            adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.Lorem ipsum dolor sit amet,
+            consectetur adipisicing
+            elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur
+            adipisicing elit.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet,
+            consectetur
+            adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
         </div>
       </div>
-      <div class="col">
+      <div class="col-sm-12 col-lg-6">
         <div class="row">
-          <div class="col"><img [src]="images[0]" height="170"></div>
+          <div class="col">
+            <img [src]="images[0]" class="img-fluid" style="max-height: 170px;">
+          </div>
           <div class="col">
             <h5 style="margin:0px;">Aliquam consequat</h5>
             <p style="margin:0px;">Aliquam consequat lorem</p>
@@ -125,7 +123,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col"><img [src]="images[0]" height="170"></div>
+          <div class="col"><img [src]="images[0]" class="img-fluid" style="max-height: 170px;"></div>
           <div class="col">
             <h5 style="margin:0px;">Aliquam consequat</h5>
             <p style="margin:0px;">Aliquam consequat lorem</p>
@@ -137,7 +135,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col"><img [src]="images[0]" height="170"></div>
+          <div class="col"><img [src]="images[0]" class="img-fluid" style="max-height: 170px;"></div>
           <div class="col">
             <h5 style="margin:0px;">Aliquam consequat</h5>
             <p style="margin:0px;">Aliquam consequat lorem</p>
