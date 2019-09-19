@@ -1,4 +1,6 @@
+import { PostService, Post } from './../services/post.service';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-home-page',
@@ -7,8 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePageComponent implements OnInit {
 	images = [ 1, 2, 3 ].map(() => `https://picsum.photos/510/340?random&t=${Math.random()}`);
+	posts$: Observable<Post[]>;
 
-	constructor() {}
+	constructor(private postService: PostService) {}
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.posts$ = this.postService.list();
+	}
 }
