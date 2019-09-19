@@ -15,9 +15,32 @@ import { FooterComponent } from './footer/footer.component';
 import { InstitutionalInfoPageComponent } from './institutional-info-page/institutional-info-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 
+// Firebase
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
+
 @NgModule({
-	declarations: [ AppComponent, NavbarComponent, HomePageComponent, InstitutionalPageComponent, ServicesPageComponent, ConventionsPageComponent, JuridicPageComponent, NewsPageComponent, FooterComponent, InstitutionalInfoPageComponent, LoginPageComponent ],
-	imports: [ BrowserModule, AppRoutingModule, NgbModule ],
+	declarations: [
+		AppComponent,
+		NavbarComponent,
+		HomePageComponent,
+		InstitutionalPageComponent,
+		ServicesPageComponent,
+		ConventionsPageComponent,
+		JuridicPageComponent,
+		NewsPageComponent,
+		FooterComponent,
+		InstitutionalInfoPageComponent,
+		LoginPageComponent,
+	],
+	imports: [
+		BrowserModule,
+		AngularFireModule.initializeApp(environment.firebase),
+		AngularFirestoreModule,
+		AppRoutingModule,
+		NgbModule,
+	],
 	providers: [],
 	bootstrap: [ AppComponent ],
 })
