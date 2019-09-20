@@ -94,9 +94,9 @@
     <div class="row" *ngIf="posts$ | async as posts">
       <div class="col-sm-12 col-lg-6" *ngIf="posts.length > 0">
         <img [src]="posts[0].mainImageUrl || images[0]" class="img-fluid" style="max-height: 350px;">
-        <h3 style="margin:0px;">{{posts[0].title || 'Título'}}</h3>
-        <p style="margin:0px;">{{posts[0].title || 'Subtítulo'}}</p>
         <p><em>{{posts[0].createdAt?.toDate() || 'Sem data'}}</em></p>
+        <h3 style="margin:0px;">{{posts[0].title || 'Título'}}</h3>
+        <p style="margin:0px;">{{posts[0].excerpt || 'Subtítulo'}}</p>
         <div class="getting-started-info">
           <div [innerHTML]="posts[0].content"></div>
         </div>
@@ -106,7 +106,7 @@
           <div class="col"><img [src]="posts[1].mainImageUrl || images[0]" class="img-fluid" style="max-height: 170px;"></div>
           <div class="col">
             <h5 style="margin:0px;">{{posts[1].title || 'Título'}}</h5>
-            <p style="margin:0px;">{{posts[1].title || 'Subtítulo'}}</p>
+            <p style="margin:0px;">{{posts[1].excerpt || 'Subtítulo'}}</p>
             <div class="getting-started-info" [innerHTML]="posts[1].content"></div>
             <p><em>{{posts[1].createdAt?.toDate() || 'Sem data'}}</em></p>
           </div>
