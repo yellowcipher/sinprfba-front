@@ -8,6 +8,7 @@ import { ServicesPageComponent } from './services-page/services-page.component';
 import { ConventionsPageComponent } from './conventions-page/conventions-page.component';
 import { JuridicPageComponent } from './juridic-page/juridic-page.component';
 import { NewsPageComponent } from './news-page/news-page.component';
+import { NewsDetailsPageComponent } from './news-details-page/news-details-page.component';
 
 const routes: Routes = [
 	{
@@ -46,6 +47,10 @@ const routes: Routes = [
 	{
 		path: 'news',
 		component: NewsPageComponent,
+	},
+	{
+		path: 'news/:id',
+		component: NewsDetailsPageComponent,
 	},
 ];
 

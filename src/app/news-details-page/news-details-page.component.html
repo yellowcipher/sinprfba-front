@@ -1,0 +1,5 @@
+<div class="container" *ngIf="post$ | async as p">
+	<img [src]="p.mainImageUrl">
+	<h1>{{p.title}}</h1>
+	<div [innerHTML]="p.content"></div>
+</div>

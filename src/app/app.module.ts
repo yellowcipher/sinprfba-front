@@ -15,10 +15,16 @@ import { FooterComponent } from './footer/footer.component';
 import { InstitutionalInfoPageComponent } from './institutional-info-page/institutional-info-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 
+// News
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { InfiniteScrollComponent } from './infinite-scroll/infinite-scroll.component';
+
 // Firebase
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NewsDetailsPageComponent } from './news-details-page/news-details-page.component';
 
 @NgModule({
 	declarations: [
@@ -33,13 +39,17 @@ import { environment } from '../environments/environment';
 		FooterComponent,
 		InstitutionalInfoPageComponent,
 		LoginPageComponent,
+		InfiniteScrollComponent,
+		NewsDetailsPageComponent,
 	],
 	imports: [
 		BrowserModule,
+		ScrollingModule,
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFirestoreModule,
 		AppRoutingModule,
 		NgbModule,
+		BrowserAnimationsModule,
 	],
 	providers: [],
 	bootstrap: [ AppComponent ],

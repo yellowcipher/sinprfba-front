@@ -1,0 +1,20 @@
+<ng-container *ngIf="infinite | async as posts">
+	<cdk-virtual-scroll-viewport #viewport itemSize=200 (scrolledIndexChange)="nextBatch($event, posts[posts.length-1].createdAt)">
+		<li *cdkVirtualFor="let p of posts; let i = index; trackBy: trackByIdx" (click)="showDetails(p.uid)">
+			<div class="card mb-3">
+				<div class="row no-gutters">
+					<div class="col-md-4">
+						<img [src]="p.mainImageUrl" class="card-img" alt="...">
+					</div>
+					<div class="col-md-8">
+						<div class="card-body">
+							<h5 class="card-title">{{p.title}}</h5>
+							<p class="card-text">{{p.excerpt}}</p>
+							<p class="card-text"><small class="text-muted">{{moment(p.createdAt.toDate()).locale('pt').fromNow()}}</small></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</li>
+	</cdk-virtual-scroll-viewport>
+</ng-container>
