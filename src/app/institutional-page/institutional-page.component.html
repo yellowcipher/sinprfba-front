@@ -2,32 +2,18 @@
   <div class="container">
     <div class="block-heading">
       <h2 class="text-info">Institucional</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae
-        leo.</p>
+      <p>Conheça a diretoria da Sinprf-ba!</p>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-md-5 feature-box">
-        <a routerLink="/institutional-info" style="color:rgb(0,0,0);font-size:20px;">Lorem</a>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis
-          vitae leo.
-        </p>
-        <a routerLink="/institutional-info"><img src="https://picsum.photos/510/340" class="img-fluid" style="max-height: 280px"></a>
-      </div>
-      <div class="col-md-5 feature-box"><a routerLink="/institutional-info"
-          style="color:rgb(0,0,0);font-size:20px;">Lorem</a>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis
-          vitae leo.</p><a routerLink="/institutional-info"><img src="https://picsum.photos/510/340" class="img-fluid" style="max-height: 280px"></a>
-      </div>
-      <div class="col-md-5 feature-box"><a routerLink="/institutional-info"
-          style="color:rgb(0,0,0);font-size:20px;">Lorem</a>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis
-          vitae leo.</p><a routerLink="/institutional-info"><img src="https://picsum.photos/510/340" class="img-fluid" style="max-height: 280px"></a>
-      </div>
-      <div class="col-md-5 feature-box"><a routerLink="/institutional-info"
-          style="color:rgb(0,0,0);font-size:20px;">Lorem</a>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis
-          vitae leo.</p><a routerLink="/institutional-info"><img src="https://picsum.photos/510/340" class="img-fluid" style="max-height: 280px"></a>
-      </div>
+    <div class="row justify-content-center" >
+    <div style="padding-top:30px;" class="col-md-5 feature-box" *ngFor="let director of board$ | async">
+      <h3 style="color:rgb(0,0,0);font-size:20px;">{{director.title}}</h3>
+      <div [innerHTML]="director.excerpt"></div>
+      <img [src]="director.mainImageUrl" class="img-fluid"
+          style="max-height: 300px">
+    </div>
     </div>
   </div>
 </section>
+<!-- <a routerLink="/institutional-info"></a> -->
+<!-- [src]="director.mainImageUrl" -->
+<!-- src="https://picsum.photos/510/340" -->
