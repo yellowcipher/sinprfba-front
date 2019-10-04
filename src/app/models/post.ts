@@ -2,8 +2,8 @@ export interface Post {
 	uid?: string;
 	title: string;
 	excerpt: string;
-	font: string;
-	content: string;
+	font?: string;
+	content?: string;
 	mainImage?: File;
 	mainImageUrl?: string;
 	slides?: File[];
@@ -12,6 +12,7 @@ export interface Post {
 	filesUrls?: string[];
 	createdAt?: Date;
 	updatedAt?: Date;
+	mainCarrousel?: boolean;
 	// userUpd: string;
 	// dhPublicacao: string;
 	// dhVigência?: string;

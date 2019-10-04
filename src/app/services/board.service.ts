@@ -30,7 +30,7 @@ export interface Board {
 })
 export class BoardService extends BaseService<Board> {
 	constructor(afs: AngularFirestore) {
-		const path = 'diretoria';
+		const path = 'board';
 		super(path, afs);
 	}
 }

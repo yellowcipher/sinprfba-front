@@ -1,8 +1,9 @@
 import { PostService } from './../services/post.service';
-import { CarrouselService, Carrousel } from './../services/carrousel.service';
+import { CarrouselService } from './../services/carrousel.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post } from '../models/post';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-home-page',
@@ -12,7 +13,10 @@ import { Post } from '../models/post';
 export class HomePageComponent implements OnInit {
 	images = [ 1, 2, 3 ].map(() => `https://picsum.photos/510/340?random&t=${Math.random()}`);
 	posts$: Observable<Post[]>;
-	carrousel$: Observable<Carrousel[]>;
+	carrousel$: Observable<Post[]>;
+	staticCarrousel: Observable<Post[]>;
+	staticSlides: Post[] = [];
+	slides: Post[] = [];
 
 	MAX_EXCERPT_LENGTH = 30;
 
@@ -23,10 +27,32 @@ export class HomePageComponent implements OnInit {
 			: plainText;
 	}
 
-	constructor(private postService: PostService, private carrouselService: CarrouselService) {}
+	constructor(private postService: PostService, private carrouselService: CarrouselService, private router: Router) {}
 
 	ngOnInit() {
 		this.posts$ = this.postService.list();
-		this.carrousel$ = this.carrouselService.list();
+		// this.carrousel$ = this.postService.list();
+		this.staticCarrousel = this.carrouselService.list();
+
+		this.staticCarrousel.subscribe((slide) => {
+			slide.forEach((element) => {
+				this.staticSlides.push(element);
+			});
+		});
+
+		this.posts$.subscribe((slide) => {
+			this.slides = this.staticSlides;
+			for (let i = 0; i < slide.length; i++) {
+				const element = slide[i];
+				if (element.mainCarrousel) {
+					this.slides.push(element);
+				}
+			}
+		});
+	}
+
+	showDetails(id) {
+		console.log(id);
+		this.router.navigate([ 'news', id ]);
 	}
 }
