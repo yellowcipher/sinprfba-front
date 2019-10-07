@@ -55,7 +55,9 @@ export class InfiniteScrollComponent {
 
 	getBatch(lastSeen) {
 		return this.db
-			.collection('posts', (ref) => ref.orderBy('createdAt').startAfter(lastSeen).limit(BATCH_SIZE))
+			.collection('posts', (ref) =>
+				ref.where('startDate', '<=', new Date()).orderBy('startDate').startAfter(lastSeen).limit(BATCH_SIZE),
+			)
 			.snapshotChanges()
 			.pipe(
 				tap((arr) => (arr.length ? null : (this.theEnd = true))),
