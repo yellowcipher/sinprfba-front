@@ -2,7 +2,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, map, throttleTime, mergeMap, scan, toArray } from 'rxjs/operators';
+import { tap, map, throttleTime, mergeMap, scan, toArray, filter } from 'rxjs/operators';
 import { Post } from '../models/post';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
@@ -17,6 +17,7 @@ const BATCH_SIZE = 10;
 export class InfiniteScrollComponent {
 	@ViewChild('viewport', { read: CdkVirtualScrollViewport, static: false })
 	viewport: CdkVirtualScrollViewport;
+	now: Date;
 	moment = moment;
 
 	theEnd = false;
@@ -25,6 +26,7 @@ export class InfiniteScrollComponent {
 	infinite: Observable<Post[]>;
 
 	constructor(private db: AngularFirestore, private router: Router) {
+		this.now = new Date();
 		const batchMap = this.offset.pipe(
 			throttleTime(500),
 			mergeMap((n) => this.getBatch(n)),
@@ -55,7 +57,9 @@ export class InfiniteScrollComponent {
 
 	getBatch(lastSeen) {
 		return this.db
-			.collection('posts', (ref) => ref.orderBy('createdAt').startAfter(lastSeen).limit(BATCH_SIZE))
+			.collection('posts', (ref) =>
+				ref.where('startDate', '<=', new Date()).orderBy('startDate').startAfter(lastSeen).limit(BATCH_SIZE),
+			)
 			.snapshotChanges()
 			.pipe(
 				tap((arr) => (arr.length ? null : (this.theEnd = true))),
