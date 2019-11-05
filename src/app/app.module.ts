@@ -25,6 +25,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewsDetailsPageComponent } from './news-details-page/news-details-page.component';
+import { UserRegistrationComponent } from './user-registration/user-registration.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
 	declarations: [
@@ -41,6 +43,7 @@ import { NewsDetailsPageComponent } from './news-details-page/news-details-page.
 		LoginPageComponent,
 		InfiniteScrollComponent,
 		NewsDetailsPageComponent,
+		UserRegistrationComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -50,6 +53,7 @@ import { NewsDetailsPageComponent } from './news-details-page/news-details-page.
 		AppRoutingModule,
 		NgbModule,
 		BrowserAnimationsModule,
+		FormsModule,
 	],
 	providers: [],
 	bootstrap: [ AppComponent ],

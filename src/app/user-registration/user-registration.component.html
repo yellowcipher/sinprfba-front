@@ -1,0 +1,63 @@
+<section class="clean-block features h-100">
+    <div class="container">
+        <div class="block-heading">
+            <h2 class="text-info">Faça seu cadastro!</h2>
+        </div>
+        <p><small>Campos com * são obrigatórios</small></p>
+            <form #form='ngForm'>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="userFirstName" >*Nome:</label>
+                        <input #userFirstName='ngModel' name="userFirstName" required ngModel type="text" class="form-control" [class.is-invalid]="userFirstName.touched && userFirstName.invalid">
+                        <p *ngIf="userFirstName.touched && !userFirstName.valid"><small style="color:red;">*Campo obrigatório</small></p>
+                    </div>
+                    <div class="col-md-6">
+                    <label for="userLastName">*Sobrenome:</label>
+                    <input #userLastName='ngModel' name="userLastName" required ngModel type="text" class="form-control"
+                        [class.is-invalid]="userLastName.touched && userLastName.invalid">
+                    <p *ngIf="userLastName.touched && !userLastName.valid"><small style="color:red;">*Campo obrigatório</small></p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="userEmail">*E-mail:</label>
+                        <input #userEmail='ngModel' name="userEmail" required ngModel type="text" class="form-control"
+                            [class.is-invalid]="userEmail.touched && userEmail.invalid">
+                        <p *ngIf="userEmail.touched && !userEmail.valid"><small style="color:red;">*Campo obrigatório</small></p>
+                        
+                    </div>
+                    <div class="col-md-6">
+                        <label for="userConfirmEmail">*Confirme o e-mail:</label>
+                        <input #userConfirmEmail='ngModel' name="userConfirmEmail" required ngModel type="text" class="form-control"
+                            [class.is-invalid]="userConfirmEmail.touched && userConfirmEmail.invalid">
+                        <p *ngIf="userConfirmEmail.touched && !userConfirmEmail.valid"><small style="color:red;">*Campo obrigatório</small></p>
+                    </div>
+                    <!-- falta colocar aqui pra checar se os campos e E-mail e Confirmar e-mail são igual -->
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="userCpf">CPF:</label>
+                        <input #userCpf='ngModel' name="userCpf" required ngModel type="text" class="form-control">
+                        <!-- <p *ngIf="userCpf.touched && !userCpf.valid"><small style="color:red;">*Campo obrigatório</small></p> -->
+                    
+                    </div>
+                    <div class="col-md-6">
+                        <label for="userRegistry">Matrícula:</label>
+                        <input #userRegistry='ngModel' name="userRegistry" required ngModel type="text" class="form-control">
+                        <!-- <p *ngIf="userRegistry.touched && !userRegistry.valid"><small style="color:red;">*Campo obrigatório</small> -->
+                        <!-- </p> -->
+                    </div>
+                </div>
+                <hr>
+                <label>Foto atual:</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="importFile" (change)="onFileChange($event.target.files)" placeholder="Escolher imagem">
+                    <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Choose file</label>
+                </div>
+
+                    
+            </form>
+    </div>
+</section>

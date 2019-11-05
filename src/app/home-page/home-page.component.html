@@ -95,7 +95,7 @@
         <h3 style="margin:0px;">{{posts[0].title || 'Título'}}</h3>
         <p style="margin:0px;">{{posts[0].excerpt || 'Subtítulo'}}</p>
         <div class="getting-started-info">
-          <div [innerHTML]="posts[0].content"></div>
+          <div [innerHTML]="formatExcerpt(posts[0].content)"></div>
         </div>
       </div>
       <div class="col-sm-12 col-lg-6" *ngIf="posts.length > 1">
