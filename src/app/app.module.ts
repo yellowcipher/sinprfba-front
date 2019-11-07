@@ -27,6 +27,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewsDetailsPageComponent } from './news-details-page/news-details-page.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { FormsModule } from '@angular/forms';
+import { TextMaskModule } from 'angular2-text-mask';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule, MatRadioModule } from '@angular/material';
+import { CepService } from './services/cep.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
 	declarations: [
@@ -54,8 +59,13 @@ import { FormsModule } from '@angular/forms';
 		NgbModule,
 		BrowserAnimationsModule,
 		FormsModule,
+		TextMaskModule,
+		MatButtonModule,
+		MatSelectModule,
+		HttpClientModule,
+		MatRadioModule,
 	],
-	providers: [],
+	providers: [ CepService ],
 	bootstrap: [ AppComponent ],
 })
 export class AppModule {}
