@@ -1,5 +1,5 @@
 <ng-container *ngIf="infinite | async as posts">
-	<cdk-virtual-scroll-viewport #viewport itemSize=200 (scrolledIndexChange)="nextBatch($event, posts[posts.length-1].startDate)">
+	<cdk-virtual-scroll-viewport #viewport itemSize=200 (scrolledIndexChange)="nextBatch($event, posts[posts.length-1] && posts[posts.length-1].updatedAt)">
 		<li *cdkVirtualFor="let p of posts; let i = index; trackBy: trackByIdx" (click)="showDetails(p.uid)">
 			<div *ngIf="p['endDate'] == null || p['endDate'].toDate() >= now" class="card mb-3">
 				<div class="row no-gutters">
@@ -10,7 +10,7 @@
 						<div class="card-body">
 							<h5 class="card-title">{{p.title}}</h5>
 							<p class="card-text">{{p.excerpt}}</p>
-							<p class="card-text"><small class="text-muted">{{moment(p.createdAt.toDate()).locale('pt').fromNow()}}</small></p>
+							<p class="card-text"><small class="text-muted">{{moment(p.startDate.toDate()).locale('pt').fromNow()}}</small></p>
 						</div>
 					</div>
 				</div>

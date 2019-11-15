@@ -1,4 +1,4 @@
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -56,21 +56,32 @@ export class InfiniteScrollComponent {
 	}
 
 	getBatch(lastSeen) {
-		return this.db
-			.collection('posts', (ref) =>
-				ref.where('startDate', '<=', new Date()).orderBy('startDate').startAfter(lastSeen).limit(BATCH_SIZE),
-			)
-			.snapshotChanges()
-			.pipe(
-				tap((arr) => (arr.length ? null : (this.theEnd = true))),
-				map((arr) => {
-					return arr.reduce((acc, cur) => {
-						const id = cur.payload.doc.id;
-						const data = cur.payload.doc.data();
-						return { ...acc, [id]: data };
-					}, {});
-				}),
+		let collection: AngularFirestoreCollection;
+
+		if (lastSeen != null) {
+			collection = this.db.collection('posts', (ref) =>
+				ref
+					.where('updatedAt', '<=', new Date())
+					.orderBy('updatedAt', 'desc')
+					.startAfter(lastSeen)
+					.limit(BATCH_SIZE),
 			);
+		} else {
+			collection = this.db.collection('posts', (ref) =>
+				ref.where('updatedAt', '<=', new Date()).orderBy('updatedAt', 'desc').limit(BATCH_SIZE),
+			);
+		}
+
+		return collection.snapshotChanges().pipe(
+			tap((arr) => (arr.length ? null : (this.theEnd = true))),
+			map((arr) => {
+				return arr.reduce((acc, cur) => {
+					const id = cur.payload.doc.id;
+					const data = cur.payload.doc.data();
+					return { ...acc, [id]: data };
+				}, {});
+			}),
+		);
 	}
 
 	showDetails(id) {
