@@ -15,3 +15,18 @@
 			<div class="content-text" [innerHTML]="p.content"></div>
 	</div>
 </div>
+<div class="more-news" *ngIf="last3Posts$ | async as last3Posts">
+	<div class=feed>
+		<div class="more-news-text">Mais do <strong>SINPRF-BA</strong></div>
+		<div *ngFor="let post of last3Posts" class="feed-item-wrapper">
+			<div class="feed-item">
+				<div><img [src]="post.mainImageUrl" (click)="showDetails(post.uid)"></div>
+				<div>
+					<h5 class="feed-title" (click)="showDetails(post.uid)">{{post.title || 'Título'}}</h5>
+					<p>{{post.excerpt || 'Subtítulo'}}</p>
+					<time class="datePublished">{{moment(post.updatedAt.toDate()).locale('pt').fromNow()}}</time>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

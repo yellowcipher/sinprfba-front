@@ -51,6 +51,7 @@ const routes: Routes = [
 	{
 		path: 'news/:id',
 		component: NewsDetailsPageComponent,
+		runGuardsAndResolvers: 'paramsOrQueryParamsChange',
 	},
 ];
 
