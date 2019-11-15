@@ -1,5 +1,17 @@
 <div class="container" *ngIf="post$ | async as p">
-	<img [src]="p.mainImageUrl">
-	<h1>{{p.title}}</h1>
-	<div [innerHTML]="p.content"></div>
+	<div class="content-head">
+			<h1 class="title">{{p.title}}</h1>
+			<h2 class="subtitle">{{p.excerpt}}</h2>
+			<p>
+				<time class="datePublished">{{moment(p.updatedAt.toDate()).locale('pt').format('DD/MM/YYYY HH[h]mm')}} </time>
+				<span>
+						<time class="dateModified"> Atualizado {{moment(p.updatedAt.toDate()).locale('pt').fromNow()}}</time>
+				</span>
+			</p>
+			<div class="divider"></div>
+	</div>
+	<img class="image" [src]="p.mainImageUrl">
+	<div class="content-body">
+			<div class="content-text" [innerHTML]="p.content"></div>
+	</div>
 </div>
