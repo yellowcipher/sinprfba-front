@@ -18,7 +18,7 @@ export class HomePageComponent implements OnInit {
 	staticSlides: Post[] = [];
 	slides: Post[] = [];
 
-	MAX_EXCERPT_LENGTH = 30;
+	MAX_EXCERPT_LENGTH = 50;
 
 	formatExcerpt(str: string) {
 		const plainText = str.replace(/<[^>]+>/g, '');

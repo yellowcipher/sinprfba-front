@@ -9,6 +9,7 @@ import { ConventionsPageComponent } from './conventions-page/conventions-page.co
 import { JuridicPageComponent } from './juridic-page/juridic-page.component';
 import { NewsPageComponent } from './news-page/news-page.component';
 import { NewsDetailsPageComponent } from './news-details-page/news-details-page.component';
+import { UserRegistrationComponent } from './user-registration/user-registration.component';
 
 const routes: Routes = [
 	{
@@ -52,6 +53,10 @@ const routes: Routes = [
 		path: 'news/:id',
 		component: NewsDetailsPageComponent,
 		runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+	},
+	{
+		path: 'registration',
+		component: UserRegistrationComponent,
 	},
 ];
 
