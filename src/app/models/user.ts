@@ -1,9 +1,9 @@
 export interface User {
-	uid: string;
+	uid?: string;
 	firstName: string;
 	lastName: string;
 	email: string;
-	cpfCnpj?: string;
+	cpf?: string;
 	registry?: string; //matrícula
 	mainImage: string;
 	addresses?: Address[];
@@ -22,14 +22,14 @@ export interface UserInfo {
 	profession: string;
 	fatherName: string;
 	motherName: string;
-	birthDate: Date;
+	birthDate: string;
 	placeOfBirth?: string;
 	nationality: string;
 	identityNumber: string;
 	identityInstitution: string;
 	ctps: string;
-	stateEntry: string;
-	municipalEntry: string;
+	OAB: string;
+	professionalIdentity: string;
 }
 
 export interface Address {

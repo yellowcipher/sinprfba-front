@@ -7,53 +7,60 @@
         <form #form='ngForm'>
             <div class="row">
                 <div class="col-md-6">
-                    <label for="userFirstName">*Nome:</label>
-                    <input #userFirstName='ngModel' name="userFirstName" required ngModel type="text"
-                        class="form-control" [class.is-invalid]="userFirstName.touched && userFirstName.invalid">
-                    <p *ngIf="userFirstName.touched && !userFirstName.valid"><small style="color:red;">*Campo
+                    <label for="firstName">*Nome:</label>
+                    <input #firstName='ngModel' name="firstName" required ngModel type="text"
+                        class="form-control" [class.is-invalid]="firstName.touched && firstName.invalid" (change)="onUserFieldChange(&quot;firstName&quot;, $event.target.value)">
+                    <p *ngIf="firstName.touched && !firstName.valid"><small style="color:red;">*Campo
                             obrigatório</small></p>
                 </div>
                 <div class="col-md-6">
-                    <label for="userLastName">*Sobrenome:</label>
-                    <input #userLastName='ngModel' name="userLastName" required ngModel type="text" class="form-control"
-                        [class.is-invalid]="userLastName.touched && userLastName.invalid">
-                    <p *ngIf="userLastName.touched && !userLastName.valid"><small style="color:red;">*Campo
+                    <label for="lastName">*Sobrenome:</label>
+                    <input #lastName='ngModel' name="lastName" required ngModel type="text" class="form-control"
+                        [class.is-invalid]="lastName.touched && lastName.invalid" (change)="onUserFieldChange(&quot;lastName&quot;, $event.target.value)">
+                    <p *ngIf="lastName.touched && !lastName.valid"><small style="color:red;">*Campo
                             obrigatório</small></p>
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-md-6">
-                    <label for="userEmail">*E-mail:</label>
-                    <input #userEmail='ngModel' name="userEmail" required ngModel type="text" class="form-control"
-                        [class.is-invalid]="userEmail.touched && userEmail.invalid">
-                    <p *ngIf="userEmail.touched && !userEmail.valid"><small style="color:red;">*Campo
+                    <label for="email">*E-mail:</label>
+                    <input #email='ngModel' name="email" required email ngModel type="text" class="form-control"
+                        [class.is-invalid]="email.touched && email.invalid" (change)="onUserFieldChange(&quot;email&quot;, $event.target.value)">
+                        <div *ngIf="email.touched && !email.valid">
+                            <p *ngIf="email.errors.required"><small style="color:red;">*Campo
                             obrigatório</small></p>
+                            <p *ngIf="email.errors.email"><small style="color:red;">*E-mail inválido</small></p>
+                        </div>
+                    
 
                 </div>
                 <div class="col-md-6">
-                    <label for="userConfirmEmail">*Confirme o e-mail:</label>
-                    <input #userConfirmEmail='ngModel' name="userConfirmEmail" required ngModel type="text"
-                        class="form-control" [class.is-invalid]="userConfirmEmail.touched && userConfirmEmail.invalid">
-                    <p *ngIf="userConfirmEmail.touched && !userConfirmEmail.valid"><small style="color:red;">*Campo
+                    <label for="password">*Senha</label>
+                    <input #password='ngModel' name="password" ngModel required minlength="8" type="password"
+                        class="form-control" [class.is-invalid]="password.touched && password.invalid">
+                        <div *ngIf="password.touched && !password.valid">
+                            <p *ngIf="password.errors.required"><small style="color:red;">*Campo
                             obrigatório</small></p>
+                            <p *ngIf="password.errors.minlength"><small style="color:red;">*A senha precisa ter no mínimo 8 caracteres</small></p>
+                        </div>
                 </div>
-                <!-- falta colocar aqui pra checar se os campos e E-mail e Confirmar e-mail são igual -->
             </div>
             <br>
             <div class="row">
                 <div class="col-md-6">
-                    <label for="userCpf">CPF:</label>
-                    <input #userCpf='ngModel' name="userCpf" required ngModel type="text" class="form-control">
-                    <!-- <p *ngIf="userCpf.touched && !userCpf.valid"><small style="color:red;">*Campo obrigatório</small></p> -->
+                    <label for="cpf">*CPF:</label>
+                    <input #cpf='ngModel' name="cpf" ngModel required minlength="14" type="text" class="form-control" [class.is-invalid]="cpf.touched && cpf.invalid" [textMask]='{mask: cpfMask, guide: false}' (change)="onUserFieldChange(&quot;cpf&quot;, $event.target.value)">
+                        <div *ngIf="cpf.touched && !cpf.valid">
+                            <p *ngIf="cpf.errors.required"><small style="color:red;">*Campo
+                            obrigatório</small></p>
+                        </div>
 
                 </div>
                 <div class="col-md-6">
-                    <label for="userRegistry">Matrícula:</label>
-                    <input #userRegistry='ngModel' name="userRegistry" required ngModel type="text"
-                        class="form-control">
-                    <!-- <p *ngIf="userRegistry.touched && !userRegistry.valid"><small style="color:red;">*Campo obrigatório</small> -->
-                    <!-- </p> -->
+                    <label for="registry">Matrícula:</label>
+                    <input #registry='ngModel' name="registry" ngModel type="text"
+                        class="form-control" (change)="onUserFieldChange(&quot;registry&quot;, $event.target.value)">
                 </div>
             </div>
             <hr>
@@ -65,18 +72,21 @@
                     file</label>
             </div>
             <hr>
-            <label>Telefones:</label>
-            <div *ngFor="let phone of phones; let i = index">
+            <label>*Telefones:</label>
+            <form #phonesForm='ngForm'>
+                <div *ngFor="let phone of phones; let i = index">
                 <div class="row">
                     <div class="col-md-2">
                         <label>Número:</label>
-                        <input #userPhone{{i}}='ngModel' name="userPhone{{i}}" required ngModel type="text"
-                            class="form-control" [textMask]='{mask: phoneMask}' [(ngModel)]="phone.number"
+                        <input #userPhone{{i}}='ngModel' required minlength="14" name="userPhone{{i}}" ngModel type="text"
+                            class="form-control" [textMask]='{mask: phoneMask, guide: false}' [(ngModel)]="phone.number"
                             (change)="onNumberChange(i,$event.target.value)">
+
+                            
                     </div>
                     <div class="col-md-3">
                         <label>Tipo:</label>
-                        <mat-select class="form-control" (selectionChange)="onTypeChange(i,$event.value)">
+                        <mat-select ngModel name='phoneType{{i}}' class="form-control" required (selectionChange)="onTypeChange(i,$event.value)">
                             <mat-option selected=true value="residencial">
                                 residencial
                             </mat-option>
@@ -87,67 +97,90 @@
                     </div>
                 </div>
             </div>
+            </form>
+            <div *ngIf="!phonesForm.valid && phonesForm.touched">
+                <p ><small style="color:red;">*Todos os telefones devem ser preenchidos corretamente e ter um tipo selecionado</small></p>
+            </div>
+            
             <br>
-            <button mat-raised-button color="primary" (click)="oneMorePhone()">Cadastrar mais um número</button>
-        </form>
-        <hr>
-        <label>Endereços:</label>
-            <div *ngFor="let address of addresses; let i = index"> 
-                <!-- <label>Endereço {{i+1}}</label> -->
-                <div class="row">
-                    <div class="col-md-2">
-                        <label>*CEP:</label>
-                        <input #zipCode{{i}}='ngModel' name="zipCode{{i}}" required ngModel type="text" [textMask]='{mask: zipCodeMask}'
-                        class="form-control" (change)='onAddressChange(i, &quot;zipCode&quot;, $event.target.value)'>
-                    </div>
-                    <div class="col-md-1">
-                        <label style="color: white;">Buscar</label>
-                        <button mat-raised-button color="primary" (click)="searchByZipCode(i)">Buscar CEP</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>*Logradouro:</label>
-                        <input #street='ngModel' name="street" required ngModel type="text" value='{{address.street}}'
-                        class="form-control" [class.is-invalid]="street.touched && street.invalid" (change)='onAddressChange(i, &quot;street&quot;, $event.target.value)'>
-                    </div>
-                    <div class="col-md-2">
-                        <label>*Número:</label>
-                        <input #number='ngModel' name="number" required ngModel type="text" value='{{address.number}}'
-                        class="form-control" [class.is-invalid]="number.touched && number.invalid" (change)='onAddressChange(i, &quot;number&quot;, $event.target.value)'>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Complemento:</label>
-                        <input #complement='ngModel' name="complement" required ngModel type="text" value='{{address.complement}}'
-                        class="form-control" [class.is-invalid]="complement.touched && complement.invalid" (change)='onAddressChange(i, &quot;complement&quot;, $event.target.value)'>
-                    </div>
-                    <div class="col-md-6">
-                        <label>*Bairro:</label>
-                        <input #district='ngModel' name="district" required ngModel type="text" value='{{address.district}}'
-                        class="form-control" [class.is-invalid]="district.touched && district.invalid" (change)='onAddressChange(i, &quot;district&quot;, $event.target.value)'>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <label>*Cidade:</label>
-                        <input #city='ngModel' name="city" required ngModel type="text" value='{{address.city}}'
-                        class="form-control" [class.is-invalid]="city.touched && city.invalid" (change)='onAddressChange(i, &quot;city&quot;, $event.target.value)'>
-                    </div>
-                    <div class="col-md-1">
-                        <label>*Estado:</label>
-                        <input #state='ngModel' name="state" required ngModel type="text" value='{{address.state}}'
-                        class="form-control" [class.is-invalid]="state.touched && state.invalid" (change)='onAddressChange(i, &quot;state&quot;, $event.target.value)'>
-                    </div>
+            <div class="row">
+                <button mat-raised-button color="primary" (click)="oneMorePhone()">Cadastrar mais um número</button>
+                <div class="col-md-2">
+                    <button mat-mini-fab color="warn" (click)="oneLessPhone()">-</button>
                 </div>
             </div>
+        
+        <hr>
+        <label>Endereços:</label>
+            <form #addressesForm='ngForm'>
+                <div *ngFor="let address of addresses; let i = index"> 
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>*CEP:</label>
+                            <input #zipCode{{i}}='ngModel' name="zipCode{{i}}" ngModel required minlength="9" type="text" [textMask]='{mask: zipCodeMask, guide: false}'
+                            class="form-control" (change)='onAddressChange(i, &quot;zipCode&quot;, $event.target.value)'>
+                            <p ><small>(apenas números)</small></p>
+                            
+                        </div>
+                        <div class="col-md-1">
+                            <label style="color: white;">Buscar</label>
+                            <button mat-raised-button color="primary" (click)="searchByZipCode(i)">Buscar CEP</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>*Logradouro:</label>
+                            <input #street{{i}}='ngModel' name="street{{i}}" ngModel required type="text" value='{{address.street}}'
+                            class="form-control" (change)='onAddressChange(i, &quot;street&quot;, $event.target.value)'>
+                        </div>
+                        <div class="col-md-2">
+                            <label>*Número:</label>
+                            <input #number{{i}}='ngModel' name="number{{i}}" ngModel required type="text" value='{{address.number}}'
+                            class="form-control" (change)='onAddressChange(i, &quot;number&quot;, $event.target.value)'>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Complemento:</label>
+                            <input #complement{{i}}='ngModel' name="complement{{i}}" ngModel type="text" value='{{address.complement}}'
+                            class="form-control" (change)='onAddressChange(i, &quot;complement&quot;, $event.target.value)'>
+                        </div>
+                        <div class="col-md-6">
+                            <label>*Bairro:</label>
+                            <input #district{{i}}='ngModel' name="district{{i}}" ngModel required type="text" value='{{address.district}}'
+                            class="form-control" (change)='onAddressChange(i, &quot;district&quot;, $event.target.value)'>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>*Cidade:</label>
+                            <input #city{{i}}='ngModel' name="city{{i}}" ngModel required type="text" value='{{address.city}}'
+                            class="form-control" (change)='onAddressChange(i, &quot;city&quot;, $event.target.value)'>
+                        </div>
+                        <div class="col-md-1">
+                            <label>*Estado:</label>
+                            <input #state{{i}}='ngModel' name="state{{i}}" ngModel required maxlength="2" type="text" value='{{address.state}}'
+                            class="form-control" (change)='onAddressChange(i, &quot;state&quot;, $event.target.value)'>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
             <br>
-             <button mat-raised-button color="primary" (click)="oneMoreAddress()">Cadastrar mais um endereço</button>
+                <div *ngIf="!addressesForm.valid && addressesForm.touched">
+                    <p ><small style="color:red;">*Todos campos com * são obrigatórios</small></p>
+                </div>
+            <br>
+             <div class="row">
+                <button mat-raised-button color="primary" (click)="oneMoreAddress()">Cadastrar mais um endereço</button>
+                <div class="col-md-2">
+                    <button mat-mini-fab color="warn" (click)="oneLessAddress()">-</button>
+                </div>
+             </div>
              <hr>
              <label>Gênero:</label>
              <div class="row">
-                <mat-radio-group aria-label="Select an option">
+                <mat-radio-group aria-label="Select an option" (change)="onUserInfoFieldChange(&quot;gender&quot;, $event.value)">
                     <mat-radio-button class="col-md-4" value="male">Masculino</mat-radio-button>
                     <mat-radio-button class="col-md-4" value="female">Feminino</mat-radio-button>
                     <mat-radio-button class="col-md-4" value="other">Outro</mat-radio-button>
@@ -157,7 +190,7 @@
              <div class="row">
                  <div class="col-md-3">
                     <label>Estado civil:</label>
-                        <mat-select class="form-control">
+                        <mat-select class="form-control" (selectionChange)="onUserInfoFieldChange(&quot;maritalStatus&quot;, $event.value)">
                             <mat-option value="single">Solteiro(a)</mat-option>
                             <mat-option value="married">Casado(a)</mat-option>
                             <mat-option value="divorced">Divorciado(a)</mat-option>
@@ -167,7 +200,7 @@
                  </div>
                  <div class="col-md-3">
                     <label>Escolaridade:</label>
-                        <mat-select class="form-control">
+                        <mat-select class="form-control" (selectionChange)="onUserInfoFieldChange(&quot;scholarity&quot;, $event.value)">
                             <mat-option value="basic">Fundamental</mat-option>
                             <mat-option value="incomplete-high">Médio incompleto</mat-option>
                             <mat-option value="high">Médio completo</mat-option>
@@ -180,62 +213,82 @@
                  </div>
                  <div class="col-md-3">
                     <label>Profissão:</label>
-                    <input #profession='ngModel' name="profession" ngModel type="text" class="form-control">   
+                    <input #profession='ngModel' name="profession" ngModel type="text" class="form-control" (change)="onUserInfoFieldChange(&quot;profession&quot;, $event.target.value)">   
                  </div>
              </div>
              <hr>
              <div class="row">
                 <div class="col-md-6">
                     <label>Nome do pai:</label>
-                    <input #fathersName='ngModel' name="fathersName" ngModel type="text" class="form-control">
+                    <input #fatherName='ngModel' name="fatherName" ngModel type="text" class="form-control" (change)="onUserInfoFieldChange(&quot;fatherName&quot;, $event.target.value)">
                 </div>
                 <div class="col-md-6">
                     <label>Nome da mãe:</label>
-                    <input #mothersName='ngModel' name="mothersName" ngModel type="text" class="form-control">
+                    <input #motherName='ngModel' name="motherName" ngModel type="text" class="form-control" (change)="onUserInfoFieldChange(&quot;motherName&quot;, $event.target.value)">
                 </div>
              </div>
              <br>
              <div class="row">
                 <div class="col-md-3">
                     <label>*Data de nascimento</label>
-                    <input #birthdate='ngModel' required name="birthdate" [textMask]='{mask: dateMask}' ngModel type="text" class="form-control">
+                    <input #birthdate='ngModel' name="birthdate" required minlength="10" [textMask]='{mask: dateMask, guide: false}' ngModel type="text" class="form-control" (change)="onUserInfoFieldChange(&quot;birthDate&quot;, $event.target.value)">
+                </div>
+                <div *ngIf="birthdate.touched && !birthdate.valid">
+                    <p *ngIf="birthdate.errors.required"><small style="color:red;">*Campo obrigatório</small></p>
                 </div>
                 <div class="col-md-3">
                     <label>*Naturalidade</label>
-                    <input #placeOfBirth='ngModel' required name="placeOfBirth" ngModel type="text" class="form-control">
+                    <input #placeOfBirth='ngModel' name="placeOfBirth" required ngModel type="text" class="form-control" (change)="onUserInfoFieldChange(&quot;placeOfBirth&quot;, $event.target.value)">
+                </div>
+                <div *ngIf="placeOfBirth.touched && !placeOfBirth.valid">
+                    <p *ngIf="placeOfBirth.errors.required"><small style="color:red;">*Campo obrigatório</small></p>
                 </div>
                 <div class="col-md-3">
                     <label>Nacionalidade</label>
-                    <input #nationality='ngModel' name="nationality" ngModel type="text" class="form-control">
+                    <input #nationality='ngModel' name="nationality" ngModel type="text" class="form-control" (change)="onUserInfoFieldChange(&quot;nationality&quot;, $event.target.value)">
                 </div>
              </div>
              <br>
              <div class="row">
                 <div class="col-md-2">
-                    <label>RG:</label>
-                    <input #identityNumber='ngModel' required name="identityNumber" ngModel type="text" class="form-control">
+                    <label>*Nº de identidade:</label>
+                    <input #identityNumber='ngModel' name="identityNumber" required ngModel type="text" class="form-control" (change)="onUserInfoFieldChange(&quot;identityNumber&quot;, $event.target.value)">
+                </div>
+                <div *ngIf="identityNumber.touched && !identityNumber.valid">
+                    <p *ngIf="identityNumber.errors.required"><small style="color:red;">*Campo obrigatório</small></p>
                 </div>
                 <div class="col-md-3">
-                    <label>Orgão emissor:</label>
-                    <input #identityInstitution='ngModel' required name="identityInstitution" ngModel type="text" class="form-control">
+                    <label>*Orgão emissor:</label>
+                    <input #identityInstitution='ngModel' name="identityInstitution" required ngModel type="text" class="form-control" (change)="onUserInfoFieldChange(&quot;identityInstitution&quot;, $event.target.value)">
+                </div>
+                <div *ngIf="identityInstitution.touched && !identityInstitution.valid">
+                    <p *ngIf="identityInstitution.errors.required"><small style="color:red;">*Campo obrigatório</small></p>
                 </div>
             </div>
                 <br>
                 <div class="row">
                 <div class="col-md-3">
                     <label>Carteira de Trabalho:</label>
-                    <input #ctps='ngModel' required name="ctps" ngModel type="text" class="form-control">
-                </div>
-                <div class="col-md-3">
-                    <label>Inscrição Estadual:</label>
-                    <input #stateEntry='ngModel' required name="stateEntry" ngModel type="text" class="form-control">
-                </div>
-                <div class="col-md-3">
-                    <label>Inscrição Municipal:</label>
-                    <input #municipalEntry='ngModel' required name="municipalEntry" ngModel type="text" class="form-control">
+                    <input #ctps='ngModel' name="ctps" ngModel type="text" class="form-control" (change)="onUserInfoFieldChange(&quot;ctps&quot;, $event.target.value)">
                 </div>
              </div>
-             
+             <br>
+             <div class="row">
+                <div class="col-md-2">
+                    <label>OAB:</label>
+                    <input #OAB='ngModel' name="OAB" ngModel type="text" class="form-control" (change)="onUserInfoFieldChange(&quot;OAB&quot;, $event.target.value)">
+                </div>
+                <div class="col-md-3">
+                    <label>Identidade profissional :</label>
+                    <input #professionalIdentity='ngModel' name="professionalIdentity" ngModel (change)="onUserInfoFieldChange(&quot;professionalIdentity&quot;, $event.target.value)" type="text" class="form-control">
+                </div>
+            </div>
+            <br>
+             <!-- <button class='btn btn-primary' type='submit' [disabled]="addressesForm.invalid">Finalizar cadastro</button> -->
+             <button class='btn btn-primary' type='submit' [disabled]="form.invalid || phonesForm.invalid || addressesForm.invalid">Finalizar cadastro</button>
+             <button class='btn btn-primary' type='submit' (click)="teste()">testar binding</button>
+            
+             </form>
             
     </div>
 </section>

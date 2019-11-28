@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { PhoneNumber, Address } from '../models/user';
+import { PhoneNumber, Address, User, UserInfo } from '../models/user';
 import { CepService } from '../services/cep.service';
+// import { User } from 'firebase';
+// import { FormControl } from '@angular/forms';
 
 @Component({
 	selector: 'app-user-registration',
@@ -8,15 +10,6 @@ import { CepService } from '../services/cep.service';
 	styleUrls: [ './user-registration.component.scss' ],
 })
 export class UserRegistrationComponent implements OnInit {
-	// public mask = [ '(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/ ];
-	// public mask = function(rawValue) {
-	// 	if (rawValue.length > 14) {
-	// 		return [ '(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/ ];
-	// 	} else {
-	// 		return [ '(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/ ];
-	// 	}
-	// };
-
 	howManyPhones: number[] = [ 7 ];
 
 	public phoneMask = function(rawValue) {
@@ -34,11 +27,40 @@ export class UserRegistrationComponent implements OnInit {
 	};
 	public zipCodeMask = [ /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/ ];
 	public dateMask = [ /\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/ ];
+	public cpfMask = [ /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/ ];
 
 	fileToUpload: File;
 	phones: PhoneNumber[] = [ { number: '', type: '' } ];
 	addresses: Address[] = [ { street: '', number: '', complement: '', district: '', state: '', city: '', zipCode: '' } ];
-
+	userFirstName: String;
+	professionalIdentity: String;
+	userInfo: UserInfo = {
+		gender: '',
+		maritalStatus: '',
+		scholarity: '',
+		profession: '',
+		fatherName: '',
+		motherName: '',
+		birthDate: '',
+		placeOfBirth: '',
+		nationality: '',
+		identityNumber: '',
+		identityInstitution: '',
+		ctps: '',
+		OAB: '',
+		professionalIdentity: '',
+	};
+	user: User = {
+		firstName: '',
+		lastName: '',
+		email: '',
+		cpf: '',
+		registry: '',
+		mainImage: '',
+		addresses: this.addresses,
+		phoneNumbers: this.phones,
+		userInfo: this.userInfo,
+	};
 	constructor(private cepService: CepService) {}
 
 	ngOnInit() {}
@@ -53,9 +75,21 @@ export class UserRegistrationComponent implements OnInit {
 	oneMorePhone() {
 		this.phones.push({ number: '', type: '' });
 	}
+
+	oneLessPhone() {
+		if (this.phones.length > 1) {
+			this.phones.pop();
+		}
+	}
 	oneMoreAddress() {
 		this.addresses.push({ street: '', number: '', complement: '', district: '', state: '', city: '', zipCode: '' });
-		console.log(this.addresses);
+		// console.log(this.addresses);
+	}
+
+	oneLessAddress() {
+		if (this.addresses.length > 1) {
+			this.addresses.pop();
+		}
 	}
 
 	onNumberChange(index, value) {
@@ -75,15 +109,21 @@ export class UserRegistrationComponent implements OnInit {
 			this.addresses[index].state = value['uf'];
 			this.addresses[index].city = value['localidade'];
 		});
-		// console.log(jsonAddress);
 	}
 
 	onAddressChange(index, field, value) {
 		this.addresses[index][field] = value;
 	}
 
-	//   Mask mask = function (rawValue) {
-	//   // add logic to generate your mask array
-	//   return [ /*your mask array*/]
-	// }
+	onUserFieldChange(field, value) {
+		this.user[field] = value;
+	}
+
+	onUserInfoFieldChange(field, value) {
+		this.user.userInfo[field] = value;
+	}
+
+	teste() {
+		console.log(this.user);
+	}
 }
