@@ -1,52 +1,36 @@
 <section class="my-5">
     <div class="container">
         <div class="block-heading">
-            <h2 class="text-info">Faça seu cadastro</h2>
+            <h2 class="text-info">Edite suas informações</h2>
         </div>
         <p><small>Campos com * são obrigatórios</small></p>
-        <form [formGroup]='userForm' novalidate>
+        <form [formGroup]='editForm' novalidate>
             <div class="row">
                 <div class="col-md-6">
                     <label for="">*Nome</label>
-                    <input type="text" formControlName='firstName' class="form-control" [class.is-invalid]="userForm.get('firstName').touched && userForm.get('firstName').invalid">
-                    <p *ngIf="userForm.get('firstName').touched && !userForm.get('firstName').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
+                    <input type="text" formControlName='firstName' class="form-control">
                 </div>
                 <div class="col-md-6">
                     <label for="">*Sobrenome</label>
-                    <input type="text" formControlName='lastName' class="form-control" [class.is-invalid]="userForm.get('lastName').touched && userForm.get('lastName').invalid">
-                    <p *ngIf="userForm.get('lastName').touched && !userForm.get('lastName').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
+                    <input type="text" formControlName='lastName' class="form-control">
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-md-6">
                     <label for="">*E-mail</label>
-                    <input type="email" formControlName='email' class="form-control" [class.is-invalid]="userForm.get('email').touched && userForm.get('email').invalid">
-                    <div *ngIf="userForm.get('email').touched && !userForm.get('email').valid">
-                        <p *ngIf="userForm.get('email').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('email').errors.email"><small style="color:red;">*E-mail inválido</small></p>
-                    </div>
+                    <input type="email" formControlName='email' class="form-control">
                 </div>
                 <div class="col-md-6">
                     <label for="">*Senha</label>
-                    <input type="password" formControlName='password' class="form-control" [class.is-invalid]="userForm.get('password').touched && userForm.get('password').invalid">
-                    <div *ngIf="userForm.get('password').touched && !userForm.get('password').valid">
-                        <p *ngIf="userForm.get('password').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('password').errors.minlength"><small style="color:red;">*A senha deve ter no mínimo 8 caracteres</small></p>
-                    </div>
+                    <input type="password" disabled class="form-control">
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-md-6">
                     <label for="">*CPF</label>
-                    <input type="text" formControlName='cpf' class="form-control" [textMask]='{mask: cpfMask, guide: false}' [class.is-invalid]="userForm.get('cpf').touched && userForm.get('cpf').invalid">
-                    <div *ngIf="userForm.get('cpf').touched && !userForm.get('cpf').valid">
-                        <p *ngIf="userForm.get('cpf').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('cpf').errors.minlength"><small style="color:red;">*CPF inválido</small></p>
-                    </div>
+                    <input type="text" formControlName='cpf' class="form-control">
                 </div>
                 <div class="col-md-6">
                     <label for="">Matrícula</label>
@@ -57,10 +41,8 @@
             <div class="row">
                 <label>*Foto atual:</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" formControlName='photoFile' (change) = "onFileChange($event.target.files)" [class.is-invalid]="userForm.get('photoFile').touched && userForm.get('photoFile').invalid">
+                    <input type="file" class="custom-file-input" id="importFile">
                     <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Escolha um arquivo</label>
-                    <p *ngIf="userForm.get('photoFile').touched && !userForm.get('photoFile').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
                 </div>
             </div>
             <hr>
@@ -68,15 +50,11 @@
             <div class="row">
                 <div class="col-md-2">
                     <label>*Principal:</label>
-                    <input type="text" formControlName='mainPhone' class="form-control" [textMask]='{mask: phoneMask, guide: false}' [class.is-invalid]="userForm.get('mainPhone').touched && userForm.get('mainPhone').invalid">
-                    <div *ngIf="userForm.get('mainPhone').touched && !userForm.get('mainPhone').valid">
-                        <p *ngIf="userForm.get('mainPhone').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('mainPhone').errors.minlength"><small style="color:red;">*Telefone inválido</small></p>
-                    </div>
+                    <input type="text" formControlName='mainPhone' class="form-control">
                 </div>
                 <div class="col-md-3">
                     <label>*Tipo:</label>
-                    <mat-select class="form-control" formControlName='mainPhoneType' [class.is-invalid]="userForm.get('mainPhoneType').touched && userForm.get('mainPhoneType').invalid">
+                    <mat-select class="form-control" formControlName='mainPhoneType'>
                         <mat-option value="residencial">
                                 residencial
                             </mat-option>
@@ -84,13 +62,10 @@
                                 celular
                             </mat-option>
                     </mat-select>
-                    <div *ngIf="userForm.get('mainPhoneType').touched && !userForm.get('mainPhoneType').valid">
-                        <p *ngIf="userForm.get('mainPhoneType').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                    </div>
                 </div>
                 <div class="col-md-2">
                     <label>Secundário:</label>
-                    <input type="text" formControlName='secondaryPhone' class="form-control" [textMask]='{mask: phoneMask, guide: false}'>
+                    <input type="text" formControlName='secondaryPhone' class="form-control">
                 </div>
                 <div class="col-md-3">
                     <label>Tipo:</label>
@@ -113,12 +88,8 @@
             <div class="row">
                 <div class="col-md-2">
                     <label>*CEP</label>
-                    <input type="text" formControlName='mainCEP' class="form-control" [textMask]='{mask: zipCodeMask, guide: false}' [class.is-invalid]="userForm.get('mainCEP').touched && userForm.get('mainCEP').invalid">
+                    <input type="text" formControlName='mainCEP' class="form-control">
                     <p ><small>(apenas números)</small></p>
-                    <div *ngIf="userForm.get('mainCEP').touched && !userForm.get('mainCEP').valid">
-                        <p *ngIf="userForm.get('mainCEP').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('mainCEP').errors.minlength"><small style="color:red;">*CEP inválido</small></p>
-                    </div>
                 </div>
                 <div class="col-md-1">
                     <label style="color: white;">Buscar</label>
@@ -128,15 +99,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <label>*Logradouro:</label>
-                    <input type="text" formControlName='mainStreet' class="form-control" [class.is-invalid]="userForm.get('mainStreet').touched && userForm.get('mainStreet').invalid">
-                    <p *ngIf="userForm.get('mainStreet').touched && !userForm.get('mainStreet').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
+                    <input type="text" formControlName='mainStreet' class="form-control">
                 </div>
                 <div class="col-md-2">
                     <label>*Número:</label>
-                    <input type="text" formControlName='mainNumber' class="form-control" [class.is-invalid]="userForm.get('mainNumber').touched && userForm.get('mainNumber').invalid">
-                    <p *ngIf="userForm.get('mainNumber').touched && !userForm.get('mainNumber').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
+                    <input type="text" formControlName='mainNumber' class="form-control">
                 </div>
             </div>
             <br>
@@ -147,23 +114,17 @@
                 </div>
                 <div class="col-md-6">
                     <label>*Bairro:</label>
-                    <input type="text" formControlName='mainDistrict' class="form-control" [class.is-invalid]="userForm.get('mainDistrict').touched && userForm.get('mainDistrict').invalid">
-                    <p *ngIf="userForm.get('mainDistrict').touched && !userForm.get('mainDistrict').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
+                    <input type="text" formControlName='mainDistrict' class="form-control">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
                     <label>*Cidade:</label>
-                    <input type="text" formControlName='mainCity' class="form-control" [class.is-invalid]="userForm.get('mainCity').touched && userForm.get('mainCity').invalid">
-                    <p *ngIf="userForm.get('mainCity').touched && !userForm.get('mainCity').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
+                    <input type="text" formControlName='mainCity' class="form-control">
                 </div>
                 <div class="col-md-1">
                     <label>*Estado:</label>
-                    <input type="text" formControlName='mainState' class="form-control" [class.is-invalid]="userForm.get('mainState').touched && userForm.get('mainState').invalid">
-                    <p *ngIf="userForm.get('mainState').touched && !userForm.get('mainState').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
+                    <input type="text" formControlName='mainState' class="form-control">
                 </div>
             </div>
             <br>
@@ -172,7 +133,7 @@
             <div class="row">
                 <div class="col-md-2">
                     <label>CEP</label>
-                    <input type="text" formControlName='secondaryCEP' class="form-control" [textMask]='{mask: zipCodeMask, guide: false}'>
+                    <input type="text" formControlName='secondaryCEP' class="form-control">
                     <p ><small>(apenas números)</small></p>
                 </div>
                 <div class="col-md-1">
@@ -214,31 +175,27 @@
             <hr>
             <label>*Gênero:</label>
             <div class="row">
-                <mat-radio-group aria-label="Select an option" formControlName='gender' [class.is-invalid]="userForm.get('gender').touched && userForm.get('gender').invalid">
+                <mat-radio-group aria-label="Select an option">
                     <mat-radio-button class="col-md-4" value="male">Masculino</mat-radio-button>
                     <mat-radio-button class="col-md-4" value="female">Feminino</mat-radio-button>
                     <mat-radio-button class="col-md-4" value="other">Outro</mat-radio-button>
                 </mat-radio-group>
-                <p *ngIf="userForm.get('gender').touched && !userForm.get('gender').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
             </div>
             <br>
              <div class="row">
                  <div class="col-md-3">
                     <label>Estado civil:</label>
-                        <mat-select class="form-control" formControlName='maritalStatus' [class.is-invalid]="userForm.get('maritalStatus').touched && userForm.get('maritalStatus').invalid">
+                        <mat-select class="form-control">
                             <mat-option value="single">Solteiro(a)</mat-option>
                             <mat-option value="married">Casado(a)</mat-option>
                             <mat-option value="divorced">Divorciado(a)</mat-option>
                             <mat-option value="widower">Viúvo(a)</mat-option>
                             <mat-option value="separeted">Separado(a)</mat-option>
                         </mat-select>
-                        <p *ngIf="userForm.get('maritalStatus').touched && !userForm.get('maritalStatus').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
                  </div>
                  <div class="col-md-3">
                     <label>Escolaridade:</label>
-                        <mat-select class="form-control" formControlName='scholarity' [class.is-invalid]="userForm.get('scholarity').touched && userForm.get('scholarity').invalid">
+                        <mat-select class="form-control">
                             <mat-option value="basic">Fundamental</mat-option>
                             <mat-option value="incomplete-high">Médio incompleto</mat-option>
                             <mat-option value="high">Médio completo</mat-option>
@@ -248,8 +205,6 @@
                             <mat-option value="master">Mestrado</mat-option>
                             <mat-option value="doctor">Doutorado</mat-option>
                         </mat-select>
-                        <p *ngIf="userForm.get('scholarity').touched && !userForm.get('scholarity').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
                  </div>
                  <div class="col-md-3">
                     <label>Profissão:</label>
@@ -271,14 +226,10 @@
              <div class="row">
                 <div class="col-md-3">
                     <label>*Data de nascimento</label>
-                    <input type="text" formControlName='birthdate' class="form-control" [textMask]='{mask: dateMask, guide: false}' [class.is-invalid]="userForm.get('birthdate').touched && userForm.get('birthdate').invalid">
-                    <div *ngIf="userForm.get('birthdate').touched && !userForm.get('birthdate').valid">
-                        <p *ngIf="userForm.get('birthdate').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('birthdate').errors.minlength"><small style="color:red;">*Data inválida</small></p>
-                    </div>
+                    <input type="text" formControlName='birthdate' class="form-control">
                 </div>
                 <div class="col-md-3">
-                    <label>Naturalidade</label>
+                    <label>*Naturalidade</label>
                     <input type="text" formControlName='placeOfBirth' class="form-control">
                 </div>
                 <div class="col-md-3">
@@ -290,15 +241,11 @@
              <div class="row">
                 <div class="col-md-2">
                     <label>*Nº de identidade:</label>
-                    <input type="text" formControlName='identityNumber' class="form-control" [class.is-invalid]="userForm.get('identityNumber').touched && userForm.get('identityNumber').invalid">
-                    <p *ngIf="userForm.get('identityNumber').touched && !userForm.get('identityNumber').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
+                    <input type="text" formControlName='identityNumber' class="form-control">
                 </div>
                 <div class="col-md-3">
                     <label>*Orgão emissor:</label>
-                    <input type="text" formControlName='identityInstitution' class="form-control" [class.is-invalid]="userForm.get('identityNumber').touched && userForm.get('identityNumber').invalid">
-                    <p *ngIf="userForm.get('identityNumber').touched && !userForm.get('identityNumber').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
+                    <input type="text" formControlName='identityInstitution' class="form-control">
                 </div>
             </div>
                 <br>
@@ -319,12 +266,20 @@
                     <input type="text" formControlName='professionalIdentity' class="form-control">
                 </div>
             </div>
+
+
+            
+
+
+
+            
+            
+
         </form>
-        <br>
-        <button class='btn btn-primary' type='submit' (click)="registerUser()" >Finalizar cadastro</button>
+
+        <!-- <button class='btn btn-primary' type='submit' (click)="logField()">log out</button> -->
     </div>
 </section>
 
-<!-- [disabled]="!userForm.valid" -->
 
-
+<!-- [(ngModel)]='firstName.value' -->

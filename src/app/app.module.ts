@@ -22,17 +22,22 @@ import { InfiniteScrollComponent } from './infinite-scroll/infinite-scroll.compo
 // Firebase
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewsDetailsPageComponent } from './news-details-page/news-details-page.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule, MatRadioModule } from '@angular/material';
 import { CepService } from './services/cep.service';
 import { HttpClientModule } from '@angular/common/http';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
+import * as firebase from 'firebase';
+firebase.initializeApp(environment.firebase);
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -49,12 +54,15 @@ import { HttpClientModule } from '@angular/common/http';
 		InfiniteScrollComponent,
 		NewsDetailsPageComponent,
 		UserRegistrationComponent,
+		UserProfileComponent,
+		EditProfileComponent,
 	],
 	imports: [
 		BrowserModule,
 		ScrollingModule,
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFirestoreModule,
+		AngularFireAuthModule,
 		AppRoutingModule,
 		NgbModule,
 		BrowserAnimationsModule,
@@ -64,6 +72,7 @@ import { HttpClientModule } from '@angular/common/http';
 		MatSelectModule,
 		HttpClientModule,
 		MatRadioModule,
+		ReactiveFormsModule,
 	],
 	providers: [ CepService ],
 	bootstrap: [ AppComponent ],

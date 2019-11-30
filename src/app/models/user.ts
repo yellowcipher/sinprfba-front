@@ -6,14 +6,16 @@ export interface User {
 	cpf?: string;
 	registry?: string; //matrícula
 	mainImage: string;
-	addresses?: Address[];
-	phoneNumbers?: PhoneNumber[];
+	mainAddress: Address;
+	secondaryAddress?: Address;
+	mainPhone: PhoneNumber;
+	secondaryPhone?: PhoneNumber;
 	userInfo?: UserInfo;
 }
 
 export interface PhoneNumber {
-	number: string;
-	type: string;
+	number?: string;
+	type?: string;
 }
 export interface UserInfo {
 	gender: string;
@@ -24,7 +26,7 @@ export interface UserInfo {
 	motherName: string;
 	birthDate: string;
 	placeOfBirth?: string;
-	nationality: string;
+	nationality?: string;
 	identityNumber: string;
 	identityInstitution: string;
 	ctps: string;
@@ -33,11 +35,11 @@ export interface UserInfo {
 }
 
 export interface Address {
-	street: string;
-	number: string;
-	complement: string;
-	district: string;
-	state: string;
-	city: string;
-	zipCode: string;
+	street?: string;
+	number?: string;
+	complement?: string;
+	district?: string;
+	state?: string;
+	city?: string;
+	zipCode?: string;
 }

@@ -10,6 +10,8 @@ import { JuridicPageComponent } from './juridic-page/juridic-page.component';
 import { NewsPageComponent } from './news-page/news-page.component';
 import { NewsDetailsPageComponent } from './news-details-page/news-details-page.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
 	{
@@ -57,6 +59,14 @@ const routes: Routes = [
 	{
 		path: 'registration',
 		component: UserRegistrationComponent,
+	},
+	{
+		path: 'profile',
+		component: UserProfileComponent,
+	},
+	{
+		path: 'edit-profile',
+		component: EditProfileComponent,
 	},
 ];
 

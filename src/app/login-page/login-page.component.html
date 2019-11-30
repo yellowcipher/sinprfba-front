@@ -6,7 +6,11 @@
     <form>
       <div class="form-group"><label>Usuário</label><input class="form-control" type="text"></div>
       <div class="form-group"><label>Senha</label><input class="form-control" type="password"></div>
-      <div class="form-group"><button class="btn btn-primary btn-block" type="button">Entrar</button></div>
+      <div class="form-group"><button class="btn btn-primary btn-block" type="button" (click)='signIn()'>Entrar</button></div>
+      <span> Não tem uma conta? <a routerLink="/registration" style="cursor:pointer">Cadastre-se!</a></span>
+      <br>
+      <a><small style="cursor:pointer">Esqueci minha senha</small></a>
     </form>
+    
   </div>
 </section>
