@@ -1,11 +1,12 @@
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, finalize } from 'rxjs/operators';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 export interface IBaseService<T> {
 	get(id: string): Observable<T>;
 	list(): Observable<T[]>;
-	add(item: T): Promise<T>;
+	// add(item: T): Promise<T>;
 	update(item: T): Promise<T>;
 	delete(id: string): void;
 }
@@ -37,9 +38,7 @@ export abstract class BaseService<T> implements IBaseService<T> {
 			),
 		);
 	}
-	add(item: T): Promise<T> {
-		throw new Error('Method not implemented.');
-	}
+
 	update(item: T): Promise<T> {
 		throw new Error('Method not implemented.');
 	}

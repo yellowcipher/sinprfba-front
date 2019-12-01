@@ -24,7 +24,7 @@ export interface UserInfo {
 	profession: string;
 	fatherName: string;
 	motherName: string;
-	birthDate: string;
+	birthdate: string;
 	placeOfBirth?: string;
 	nationality?: string;
 	identityNumber: string;

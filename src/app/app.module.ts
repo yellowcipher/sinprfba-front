@@ -37,6 +37,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 import * as firebase from 'firebase';
+import { AngularFireStorage } from '@angular/fire/storage';
 firebase.initializeApp(environment.firebase);
 @NgModule({
 	declarations: [
@@ -74,7 +75,7 @@ firebase.initializeApp(environment.firebase);
 		MatRadioModule,
 		ReactiveFormsModule,
 	],
-	providers: [ CepService ],
+	providers: [ CepService, AngularFireStorage ],
 	bootstrap: [ AppComponent ],
 })
 export class AppModule {}

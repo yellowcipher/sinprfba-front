@@ -3,6 +3,8 @@ import * as firebase from 'firebase';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { User, UserInfo } from '../models/user';
 import { UserService } from '../services/user.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { createUser } from '../services/auth.service';
 
 @Component({
 	selector: 'app-user-registration',
@@ -14,7 +16,7 @@ export class UserRegistrationComponent implements OnInit {
 	labelImport: ElementRef;
 
 	userForm: FormGroup;
-	user$: User;
+	// user$: User;
 
 	public phoneMask = function(rawValue) {
 		let numbers = rawValue.match(/\d/g);
@@ -33,7 +35,7 @@ export class UserRegistrationComponent implements OnInit {
 	public dateMask = [ /\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/ ];
 	public cpfMask = [ /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/ ];
 
-	constructor(private fb: FormBuilder, private userService: UserService) {}
+	constructor(private fb: FormBuilder, private userService: UserService, private afs: AngularFirestore) {}
 	// userPassword: String;
 	fileToUpload: File;
 	userInfo: UserInfo = {
@@ -43,7 +45,7 @@ export class UserRegistrationComponent implements OnInit {
 		profession: '',
 		fatherName: '',
 		motherName: '',
-		birthDate: '',
+		birthdate: '',
 		placeOfBirth: '',
 		nationality: '',
 		identityNumber: '',
@@ -113,15 +115,80 @@ export class UserRegistrationComponent implements OnInit {
 		this.userInfo.gender = this.userForm.get('gender').value;
 	}
 
-	registerUser() {
-		if (this.userForm.valid) {
-			console.log(this.user);
-		}
-		console.log(this.userForm.get('photoFile').value.toString());
-	}
-
 	onFileChange(files: FileList) {
 		this.labelImport.nativeElement.innerText = Array.from(files).map((f) => f.name).join(', ');
 		this.fileToUpload = files.item(0);
+	}
+
+	registerUser() {
+		//lembrar de tirar o NOT
+		//depois tem que revalidar tudo (colocando o touched se pá), e caso de ruim avisar o usuário que deu ruim
+		if (!this.userForm.valid) {
+			try {
+				createUser(this.userForm.get('email').value, this.userForm.get('password').value).then((result) => {
+					const uid = result.user.uid;
+					this.buildUser(uid);
+
+					this.userService.upload(this.fileToUpload, { folder: 'users/' + uid + '/' }).then((imageURL) => {
+						this.user.mainImage = imageURL;
+						console.log(this.user);
+						this.afs.collection('users').doc(uid).set(this.user, { merge: true });
+					});
+				});
+			} catch (e) {
+				console.log(e);
+			}
+		}
+	}
+
+	buildUser(uid) {
+		this.user.firstName = this.userForm.get('firstName').value;
+		this.user.lastName = this.userForm.get('lastName').value;
+		this.user.email = this.userForm.get('email').value;
+		this.user.cpf = this.userForm.get('cpf').value;
+		this.user.registry = this.userForm.get('registry').value;
+		this.user.mainAddress = {
+			street: this.userForm.get('mainStreet').value,
+			number: this.userForm.get('mainNumber').value,
+			complement: this.userForm.get('mainComplement').value,
+			district: this.userForm.get('mainDistrict').value,
+			state: this.userForm.get('mainState').value,
+			city: this.userForm.get('mainCity').value,
+			zipCode: this.userForm.get('mainCEP').value,
+		};
+		this.user.secondaryAddress = {
+			street: this.userForm.get('secondaryStreet').value,
+			number: this.userForm.get('secondaryNumber').value,
+			complement: this.userForm.get('secondaryComplement').value,
+			district: this.userForm.get('secondaryDistrict').value,
+			state: this.userForm.get('secondaryState').value,
+			city: this.userForm.get('secondaryCity').value,
+			zipCode: this.userForm.get('secondaryCEP').value,
+		};
+		this.user.mainPhone = {
+			number: this.userForm.get('mainPhone').value,
+			type: this.userForm.get('mainPhoneType').value,
+		};
+		this.user.secondaryPhone = {
+			number: this.userForm.get('secondaryPhone').value,
+			type: this.userForm.get('secondaryPhoneType').value,
+		};
+
+		this.userInfo.gender = this.userForm.get('gender').value;
+		this.userInfo.maritalStatus = this.userForm.get('maritalStatus').value;
+		this.userInfo.scholarity = this.userForm.get('scholarity').value;
+		this.userInfo.profession = this.userForm.get('profession').value;
+		this.userInfo.fatherName = this.userForm.get('fatherName').value;
+		this.userInfo.motherName = this.userForm.get('motherName').value;
+		this.userInfo.birthdate = this.userForm.get('birthdate').value;
+		this.userInfo.placeOfBirth = this.userForm.get('placeOfBirth').value;
+		this.userInfo.nationality = this.userForm.get('nationality').value;
+		this.userInfo.identityNumber = this.userForm.get('identityNumber').value;
+		this.userInfo.identityInstitution = this.userForm.get('identityInstitution').value;
+		this.userInfo.ctps = this.userForm.get('ctps').value;
+		this.userInfo.OAB = this.userForm.get('oab').value;
+		this.userInfo.professionalIdentity = this.userForm.get('professionalIdentity').value;
+		this.user.uid = uid;
+		// console.log(this.user);
 	}
 }
