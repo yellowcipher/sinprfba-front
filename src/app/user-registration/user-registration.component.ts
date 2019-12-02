@@ -4,7 +4,8 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { User, UserInfo } from '../models/user';
 import { UserService } from '../services/user.service';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { createUser } from '../services/auth.service';
+import { AuthService } from '../services/auth.service';
+// import { createUser } from '../services/auth.service';
 
 @Component({
 	selector: 'app-user-registration',
@@ -17,6 +18,7 @@ export class UserRegistrationComponent implements OnInit {
 
 	userForm: FormGroup;
 	// user$: User;
+	public loading = false;
 
 	public phoneMask = function(rawValue) {
 		let numbers = rawValue.match(/\d/g);
@@ -35,7 +37,12 @@ export class UserRegistrationComponent implements OnInit {
 	public dateMask = [ /\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/ ];
 	public cpfMask = [ /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/ ];
 
-	constructor(private fb: FormBuilder, private userService: UserService, private afs: AngularFirestore) {}
+	constructor(
+		private fb: FormBuilder,
+		private userService: UserService,
+		private afs: AngularFirestore,
+		private auth: AuthService,
+	) {}
 	// userPassword: String;
 	fileToUpload: File;
 	userInfo: UserInfo = {
@@ -123,20 +130,26 @@ export class UserRegistrationComponent implements OnInit {
 	registerUser() {
 		//lembrar de tirar o NOT
 		//depois tem que revalidar tudo (colocando o touched se pá), e caso de ruim avisar o usuário que deu ruim
-		if (!this.userForm.valid) {
+		if (this.userForm.valid) {
 			try {
-				createUser(this.userForm.get('email').value, this.userForm.get('password').value).then((result) => {
+				this.loading = true;
+				this.auth.signIn(this.userForm.get('email').value, this.userForm.get('password').value).then((result) => {
 					const uid = result.user.uid;
 					this.buildUser(uid);
 
 					this.userService.upload(this.fileToUpload, { folder: 'users/' + uid + '/' }).then((imageURL) => {
 						this.user.mainImage = imageURL;
 						console.log(this.user);
-						this.afs.collection('users').doc(uid).set(this.user, { merge: true });
+						this.afs.collection('users').doc(uid).set(this.user, { merge: true }).then((value) => {
+							this.loading = false;
+						});
 					});
 				});
 			} catch (e) {
-				console.log(e);
+				console.log('ERROR: ', e);
+				this.loading = false;
+			} finally {
+				this.loading = false;
 			}
 		}
 	}

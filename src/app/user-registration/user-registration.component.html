@@ -321,10 +321,11 @@
             </div>
         </form>
         <br>
-        <button class='btn btn-primary' type='submit' (click)="registerUser()" >Finalizar cadastro</button>
+        <button class='btn btn-primary' type='submit' (click)="registerUser()" [disabled]="!userForm.valid">Finalizar cadastro</button>
     </div>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
 </section>
 
 
 
-<!-- [disabled]="!userForm.valid" -->
+

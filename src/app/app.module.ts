@@ -35,6 +35,7 @@ import { CepService } from './services/cep.service';
 import { HttpClientModule } from '@angular/common/http';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { NgxLoadingModule } from 'ngx-loading';
 
 import * as firebase from 'firebase';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -74,6 +75,7 @@ firebase.initializeApp(environment.firebase);
 		HttpClientModule,
 		MatRadioModule,
 		ReactiveFormsModule,
+		NgxLoadingModule,
 	],
 	providers: [ CepService, AngularFireStorage ],
 	bootstrap: [ AppComponent ],
