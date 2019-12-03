@@ -14,6 +14,7 @@ import { NewsPageComponent } from './news-page/news-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { InstitutionalInfoPageComponent } from './institutional-info-page/institutional-info-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 // News
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -76,6 +77,7 @@ firebase.initializeApp(environment.firebase);
 		MatRadioModule,
 		ReactiveFormsModule,
 		NgxLoadingModule,
+		MatExpansionModule,
 	],
 	providers: [ CepService, AngularFireStorage ],
 	bootstrap: [ AppComponent ],

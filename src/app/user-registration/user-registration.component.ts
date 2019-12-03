@@ -5,6 +5,7 @@ import { User, UserInfo } from '../models/user';
 import { UserService } from '../services/user.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 // import { createUser } from '../services/auth.service';
 
 @Component({
@@ -42,6 +43,7 @@ export class UserRegistrationComponent implements OnInit {
 		private userService: UserService,
 		private afs: AngularFirestore,
 		private auth: AuthService,
+		private router: Router,
 	) {}
 	// userPassword: String;
 	fileToUpload: File;
@@ -142,6 +144,7 @@ export class UserRegistrationComponent implements OnInit {
 						console.log(this.user);
 						this.afs.collection('users').doc(uid).set(this.user, { merge: true }).then((value) => {
 							this.loading = false;
+							this.router.navigate([ '/login' ]);
 						});
 					});
 				});
@@ -149,7 +152,7 @@ export class UserRegistrationComponent implements OnInit {
 				console.log('ERROR: ', e);
 				this.loading = false;
 			} finally {
-				this.loading = false;
+				// this.loading = false;
 			}
 		}
 	}

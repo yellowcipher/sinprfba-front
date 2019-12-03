@@ -12,6 +12,7 @@ import { AuthService } from '../services/auth.service';
 export class LoginPageComponent implements OnInit {
 	// emailTest = 'jedhai.psn@gmail.com';
 	// passwordTest = '10548196';
+	// panelOpenState = false;
 	loginForm: FormGroup;
 	constructor(private router: Router, private fb: FormBuilder, public auth: AuthService) {}
 
@@ -32,5 +33,9 @@ export class LoginPageComponent implements OnInit {
 		} catch (e) {
 			console.log(e);
 		}
+	}
+
+	logOut() {
+		this.auth.signOut();
 	}
 }

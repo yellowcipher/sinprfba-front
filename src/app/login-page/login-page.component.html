@@ -1,52 +1,203 @@
-
-
-
-
 <section *ngIf='auth.user$ | async as user; else login'>
-
-      <!-- <pre>
+  <div class="container">
+     <!-- <pre>
         {{user | json}}
       </pre> -->
 
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="row justify-content-center">
-                    <img src={{user.mainImage}} class="rounded-circle img-fluid" style="max-width: 20%;">
+                    <img src={{user.mainImage}} class="rounded-circle img-fluid" style="max-width: 30%;">
                 </div>
-                
             </div>
         </div>
         <br>
         <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="row justify-content-center">
-                     <h1>{{user.lastName}}, {{user$?.firstName}}</h1>
-                </div>
-                <div class="row justify-content-center">
-                   <h2>{{user.email}}</h2>
-                </div>
-            </div>
+          <h1>{{user.lastName}}, {{user.firstName}}</h1>
         </div>
-         <div class="row justify-content-center">
+        <br>
+     
+         
+        <!-- accordion -->
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h5>Informações de contato</h5>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row justify-content-center">
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Email: {{user.email}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label> Telefone: {{user.mainPhone.number}}</label>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Endereço:</label>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-6">
+                <label>{{user.mainAddress.street}}, {{user.mainAddress.number}} - {{user.mainAddress.district}}</label>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-6">
+                <label>{{user.mainAddress.zipCode}} - {{user.mainAddress.complement}}</label>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-6">
+                <label>{{user.mainAddress.city}}, {{user.mainAddress.state}}</label>
+              </div>
+            </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h5>Documentos</h5>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row justify-content-around">
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>CPF: {{user.cpf}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label> Matrícula: {{user.registry}}</label>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row justify-content-around">
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Nº de identidade: {{user.userInfo.identityNumber}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label> Orgão emissor: {{user.userInfo.identityInstitution}}</label>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row justify-content-around">
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Carteira de Trabalho: {{user.userInfo.ctps}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>OAB: {{user.userInfo.OAB}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label> Identidade profissional: {{user.userInfo.professionalIdentity}}</label>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h5>Informações pessoais</h5>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row justify-content-around">
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Gênero: {{user.userInfo.gender}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Estado civíl: {{user.userInfo.maritalStatus}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Escolaridade: {{user.userInfo.scholarity}}</label>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row justify-content-around">
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Profissão: {{user.userInfo.profession}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Nome da mãe: {{user.userInfo.motherName}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Nome do Pai: {{user.userInfo.fatherName}}</label>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row justify-content-around">
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Data de nascimento: {{user.userInfo.birthdate}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Naturalidade: {{user.userInfo.placeOfBirth}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row justify-content-center">
+                  <label>Nacionalidade: {{user.userInfo.nationality}}</label>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <!-- /accordion -->
+        <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="row justify-content-center">
                     <small><a routerLink="/edit-profile" style="cursor:pointer">Clique aqui</a> para editar suas informações</small>
                 </div>
-                
             </div>
         </div>
-
-
-        
-        
-	
-	
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="row justify-content-center">
+                    <small><a (click)='logOut()' style="cursor:pointer" href="">Sair da conta</a></small>
+                </div>
+            </div>
+        </div>
+        <br>
+  </div>
+  
+     
 </section>
 
 
 
 
-
+<!-- Login -->
 
 
 
