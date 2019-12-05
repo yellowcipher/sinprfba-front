@@ -15,6 +15,8 @@ import { FooterComponent } from './footer/footer.component';
 import { InstitutionalInfoPageComponent } from './institutional-info-page/institutional-info-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 // News
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -40,6 +42,8 @@ import { NgxLoadingModule } from 'ngx-loading';
 
 import * as firebase from 'firebase';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { DeleteAccountModalComponent } from './delete-account-modal/delete-account-modal.component';
+import { SnackbarErrorComponent } from './snackbar-error/snackbar-error.component';
 firebase.initializeApp(environment.firebase);
 @NgModule({
 	declarations: [
@@ -59,6 +63,8 @@ firebase.initializeApp(environment.firebase);
 		UserRegistrationComponent,
 		UserProfileComponent,
 		EditProfileComponent,
+		DeleteAccountModalComponent,
+		SnackbarErrorComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -78,8 +84,11 @@ firebase.initializeApp(environment.firebase);
 		ReactiveFormsModule,
 		NgxLoadingModule,
 		MatExpansionModule,
+		MatDialogModule,
+		MatSnackBarModule,
 	],
 	providers: [ CepService, AngularFireStorage ],
 	bootstrap: [ AppComponent ],
+	entryComponents: [ DeleteAccountModalComponent, SnackbarErrorComponent ],
 })
 export class AppModule {}

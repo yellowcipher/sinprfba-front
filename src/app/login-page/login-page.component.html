@@ -204,34 +204,33 @@
 
 <ng-template #login>
   <section class="clean-block clean-form dark" >
-  <div class="container">
-    <div class="block-heading">
-      <h2 class="text-info">Acesse sua conta</h2>
+    <div class="container">
+      <div class="block-heading">
+        <h2 class="text-info">Acesse sua conta</h2>
+      </div>
+      <form [formGroup]='loginForm'>
+        <label>E-mail</label>
+        <input type="email" formControlName='email' class="form-control" [class.is-invalid]="loginForm.get('email').touched && loginForm.get('email').invalid">
+        <div *ngIf="loginForm.get('email').touched && !loginForm.get('email').valid">
+            <p *ngIf="loginForm.get('email').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
+            <p *ngIf="loginForm.get('email').errors.email"><small style="color:red;">*E-mail inválido</small></p>
+        </div>
+        <br>
+        <label for="">Senha</label>
+        <input type="password" formControlName='password' class="form-control" [class.is-invalid]="loginForm.get('password').touched && loginForm.get('password').invalid">
+        <div *ngIf="loginForm.get('password').touched && !loginForm.get('password').valid">
+            <p *ngIf="loginForm.get('password').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
+            <p *ngIf="loginForm.get('password').errors.minlength"><small style="color:red;">*A senha deve ter no mínimo 8 caracteres</small></p>
+        </div>
+        <br>
+        <div class="form-group"><button [disabled]="!loginForm.valid" class="btn btn-primary btn-block" type="button" (click)='signIn()'>Entrar</button></div>
+        <span> Não tem uma conta? <a routerLink="/registration" style="cursor:pointer">Cadastre-se!</a></span>
+        <br>
+        <a><small style="cursor:pointer">Esqueci minha senha</small></a>
+      </form>
+      
     </div>
-    <form [formGroup]='loginForm'>
-      <label>E-mail</label>
-       <input type="email" formControlName='email' class="form-control" [class.is-invalid]="loginForm.get('email').touched && loginForm.get('email').invalid">
-      <div *ngIf="loginForm.get('email').touched && !loginForm.get('email').valid">
-           <p *ngIf="loginForm.get('email').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-          <p *ngIf="loginForm.get('email').errors.email"><small style="color:red;">*E-mail inválido</small></p>
-      </div>
-      <br>
-      <label for="">Senha</label>
-      <input type="password" formControlName='password' class="form-control" [class.is-invalid]="loginForm.get('password').touched && loginForm.get('password').invalid">
-      <div *ngIf="loginForm.get('password').touched && !loginForm.get('password').valid">
-          <p *ngIf="loginForm.get('password').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-          <p *ngIf="loginForm.get('password').errors.minlength"><small style="color:red;">*A senha deve ter no mínimo 8 caracteres</small></p>
-      </div>
-      <br>
-      <div class="form-group"><button class="btn btn-primary btn-block" type="button" (click)='signIn()'>Entrar</button></div>
-      <span> Não tem uma conta? <a routerLink="/registration" style="cursor:pointer">Cadastre-se!</a></span>
-      <br>
-      <a><small style="cursor:pointer">Esqueci minha senha</small></a>
-    </form>
-    
-  </div>
-</section>
-
+  </section>
 </ng-template>
 
 

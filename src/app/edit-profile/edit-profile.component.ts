@@ -4,7 +4,8 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { User } from '../models/user';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
-import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteAccountModalComponent } from '../delete-account-modal/delete-account-modal.component';
 
 @Component({
 	selector: 'app-edit-profile',
@@ -13,17 +14,19 @@ import { Observable } from 'rxjs';
 })
 export class EditProfileComponent implements OnInit {
 	editForm: FormGroup;
-	// user$: Observable<User>;
 
-	constructor(private fb: FormBuilder, private userService: UserService, private auth: AuthService) {}
+	constructor(
+		private fb: FormBuilder,
+		// private userService: UserService,
+		private auth: AuthService,
+		public dialog: MatDialog,
+	) {}
 
 	ngOnInit() {
-		// this.user$ = this.auth.user$;
 		this.editForm = this.fb.group({
 			firstName: [ '', [ Validators.required ] ],
 			lastName: [ '', [ Validators.required ] ],
 			email: [ '', [ Validators.required, Validators.email ] ],
-			// password: ['', [Validators.required, Validators.minLength(8)]],
 			cpf: [ '', [ Validators.required, Validators.minLength(14) ] ],
 			registry: [ '' ],
 			photoFile: [ null, [ Validators.required ] ],
@@ -62,17 +65,17 @@ export class EditProfileComponent implements OnInit {
 		});
 	}
 
-	get firstName() {
-		return this.editForm.get('firstName');
-	}
+	openDialog(): void {
+		const dialogRef = this.dialog.open(DeleteAccountModalComponent, {
+			width: '50%',
+			// data: { name: this.name, animal: this.animal }
+		});
 
-	get email() {
-		return this.editForm.get('email');
+		dialogRef.afterClosed().subscribe((result) => {
+			console.log('The dialog was closed');
+			// this.animal = result;
+		});
 	}
-
-	// set firstName(name){
-	//   this.firstName = name;
-	// }
 
 	logInTest() {
 		firebase.auth().onAuthStateChanged(function(user) {
