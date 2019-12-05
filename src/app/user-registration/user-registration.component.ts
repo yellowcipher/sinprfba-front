@@ -133,9 +133,10 @@ export class UserRegistrationComponent implements OnInit {
 		//lembrar de tirar o NOT
 		//depois tem que revalidar tudo (colocando o touched se pá), e caso de ruim avisar o usuário que deu ruim
 		if (this.userForm.valid) {
-			try {
-				this.loading = true;
-				this.auth.signIn(this.userForm.get('email').value, this.userForm.get('password').value).then((result) => {
+			this.loading = true;
+			this.auth
+				.signIn(this.userForm.get('email').value, this.userForm.get('password').value)
+				.then((result) => {
 					const uid = result.user.uid;
 					this.buildUser(uid);
 
@@ -147,13 +148,11 @@ export class UserRegistrationComponent implements OnInit {
 							this.router.navigate([ '/login' ]);
 						});
 					});
+				})
+				.catch((e) => {
+					this.loading = false;
+					console.log(e);
 				});
-			} catch (e) {
-				console.log('ERROR: ', e);
-				this.loading = false;
-			} finally {
-				// this.loading = false;
-			}
 		}
 	}
 

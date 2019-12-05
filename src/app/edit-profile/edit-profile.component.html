@@ -176,9 +176,9 @@
             <label>*Gênero:</label>
             <div class="row">
                 <mat-radio-group aria-label="Select an option" formControlName='gender' [(ngModel)]="user.userInfo.gender">
-                    <mat-radio-button class="col-md-4" value="male">Masculino</mat-radio-button>
-                    <mat-radio-button class="col-md-4" value="female">Feminino</mat-radio-button>
-                    <mat-radio-button class="col-md-4" value="other">Outro</mat-radio-button>
+                    <mat-radio-button class="col-md-4" value="Masculino">Masculino</mat-radio-button>
+                    <mat-radio-button class="col-md-4" value="Feminino">Feminino</mat-radio-button>
+                    <mat-radio-button class="col-md-4" value="Outro">Outro</mat-radio-button>
                 </mat-radio-group>
             </div>
             <br>
@@ -186,24 +186,24 @@
                  <div class="col-md-3">
                     <label>Estado civil:</label>
                         <mat-select class="form-control" formControlName='maritalStatus' [(ngModel)]="user.userInfo.maritalStatus">
-                            <mat-option value="single">Solteiro(a)</mat-option>
-                            <mat-option value="married">Casado(a)</mat-option>
-                            <mat-option value="divorced">Divorciado(a)</mat-option>
-                            <mat-option value="widower">Viúvo(a)</mat-option>
-                            <mat-option value="separeted">Separado(a)</mat-option>
+                            <mat-option value="Solteiro(a)">Solteiro(a)</mat-option>
+                            <mat-option value="Casado(a)">Casado(a)</mat-option>
+                            <mat-option value="Divorciado(a)">Divorciado(a)</mat-option>
+                            <mat-option value="Viúvo(a)">Viúvo(a)</mat-option>
+                            <mat-option value="Separado(a)">Separado(a)</mat-option>
                         </mat-select>
                  </div>
                  <div class="col-md-3">
                     <label>Escolaridade:</label>
                         <mat-select class="form-control" formControlName='scholarity' [(ngModel)]="user.userInfo.scholarity">
-                            <mat-option value="basic">Fundamental</mat-option>
-                            <mat-option value="incomplete-high">Médio incompleto</mat-option>
-                            <mat-option value="high">Médio completo</mat-option>
-                            <mat-option value="incomplete-higher">Superior incompleto</mat-option>
-                            <mat-option value="higher">Superior completo</mat-option>
-                            <mat-option value="pos">Pós-graduação</mat-option>
-                            <mat-option value="master">Mestrado</mat-option>
-                            <mat-option value="doctor">Doutorado</mat-option>
+                            <mat-option value="Fundamental">Fundamental</mat-option>
+                            <mat-option value="Médio incompleto">Médio incompleto</mat-option>
+                            <mat-option value="Médio completo">Médio completo</mat-option>
+                            <mat-option value="Superior incompleto">Superior incompleto</mat-option>
+                            <mat-option value="Superior completo">Superior completo</mat-option>
+                            <mat-option value="Pós-graduação">Pós-graduação</mat-option>
+                            <mat-option value="Mestrado">Mestrado</mat-option>
+                            <mat-option value="Doutorado">Doutorado</mat-option>
                         </mat-select>
                  </div>
                  <div class="col-md-3">

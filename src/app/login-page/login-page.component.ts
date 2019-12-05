@@ -36,7 +36,6 @@ export class LoginPageComponent implements OnInit {
 		if (this.loginForm.valid) {
 			this.auth.logIn(email, password).catch((e) => {
 				if (e.code == 'auth/user-not-found') {
-					// console.log('USER NOT FOUND');
 					this.openSnackBar('Usuário não existe.');
 				} else if (e.code == 'auth/wrong-password') {
 					this.openSnackBar('Senha incorreta.');
