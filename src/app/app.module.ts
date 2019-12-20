@@ -44,6 +44,7 @@ import * as firebase from 'firebase';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { DeleteAccountModalComponent } from './delete-account-modal/delete-account-modal.component';
 import { SnackbarErrorComponent } from './snackbar-error/snackbar-error.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 firebase.initializeApp(environment.firebase);
 @NgModule({
 	declarations: [
@@ -65,6 +66,7 @@ firebase.initializeApp(environment.firebase);
 		EditProfileComponent,
 		DeleteAccountModalComponent,
 		SnackbarErrorComponent,
+		ForgotPasswordComponent,
 	],
 	imports: [
 		BrowserModule,

@@ -47,4 +47,8 @@ export class AuthService {
 
 		return userRef.set(user, { merge: true });
 	}
+
+	resetPassword(email: string) {
+		return this.afAuth.auth.sendPasswordResetEmail(email);
+	}
 }

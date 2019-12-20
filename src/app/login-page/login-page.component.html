@@ -1,8 +1,5 @@
 <section *ngIf='auth.user$ | async as user; else login'>
   <div class="container">
-     <!-- <pre>
-        {{user | json}}
-      </pre> -->
 
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -226,7 +223,7 @@
         <div class="form-group"><button [disabled]="!loginForm.valid" class="btn btn-primary btn-block" type="button" (click)='signIn()'>Entrar</button></div>
         <span> Não tem uma conta? <a routerLink="/registration" style="cursor:pointer">Cadastre-se!</a></span>
         <br>
-        <a><small style="cursor:pointer">Esqueci minha senha</small></a>
+        <a routerLink="/forgot-password" style="cursor:pointer"><small>Esqueci minha senha</small></a>
       </form>
       
     </div>

@@ -12,6 +12,7 @@ import { NewsDetailsPageComponent } from './news-details-page/news-details-page.
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const routes: Routes = [
 	{
@@ -67,6 +68,10 @@ const routes: Routes = [
 	{
 		path: 'edit-profile',
 		component: EditProfileComponent,
+	},
+	{
+		path: 'forgot-password',
+		component: ForgotPasswordComponent,
 	},
 ];
 
