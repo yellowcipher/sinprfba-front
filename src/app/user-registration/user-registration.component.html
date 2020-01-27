@@ -4,38 +4,92 @@
         <div class="block-heading">
             <h2 class="text-info">Faça seu cadastro</h2>
         </div>
+        <div class="row justify-content-center">
+            {{page}}/x
+        </div>
         <p><small>Campos com * são obrigatórios</small></p>
-        <form [formGroup]='userForm' novalidate>
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">*Nome</label>
-                    <input type="text" formControlName='firstName' class="form-control" [class.is-invalid]="userForm.get('firstName').touched && userForm.get('firstName').invalid">
-                    <p *ngIf="userForm.get('firstName').touched && !userForm.get('firstName').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
+        
+            <form [formGroup]='form1' novalidate>
+                <div id="page1" *ngIf="page == 1">
+                    <div class="row">
+                        *
+                    <mat-radio-group aria-label="Select an option" formControlName='type' [class.is-invalid]="form1.get('type').touched && form1.get('type').invalid">
+                        <mat-radio-button class="col-md-4" value="Ativo">Ativo</mat-radio-button>
+                        <mat-radio-button class="col-md-4" value="Aposentado">Aposentado</mat-radio-button>
+                        <mat-radio-button class="col-md-4" value="Pensionista">Pensionista</mat-radio-button>
+                    </mat-radio-group>
+                    <p *ngIf="form1.get('type').touched && !form1.get('type').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
                 </div>
-                <div class="col-md-6">
-                    <label for="">*Sobrenome</label>
-                    <input type="text" formControlName='lastName' class="form-control" [class.is-invalid]="userForm.get('lastName').touched && userForm.get('lastName').invalid">
-                    <p *ngIf="userForm.get('lastName').touched && !userForm.get('lastName').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
+                <br>
+
+                <div *ngIf="form1.get('type').valid && form1.get('type').value == 'Pensionista'">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">CPF do instituidor</label>
+                            <input type="text" formControlName='patronsCPF' class="form-control" [textMask]='{mask: cpfMask, guide: false}' [class.is-invalid]="form1.get('patronsCPF').touched && form1.get('patronsCPF').invalid">
+                            <p *ngIf="form1.get('patronsCPF').touched && !form1.get('patronsCPF').valid"><small style="color:red;">*Campo
+                                    obrigatório</small></p>
+                            <br>
+                            <button class='btn btn-primary' type='submit' (click)="searchByCPF(form1.get('patronsCPF').value)">pesquisar cpf</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <br>
+                <div *ngIf="hasPatron == true">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">Cadastro encontrado. <u>{{patronName}}</u> será seu instituidor.</label>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="hasPatron == false">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">Cadastro não encontrado. Confira se o cpf está correto. Em caso de problemas, entre em contato com a secretaria do sindicato.</label>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button class='btn btn-primary' type='submit' (click)="changePage(1)" [disabled]="form1.get('type').value == '' || form1.get('type').value == 'Pensionista' && hasPatron == null || form1.get('type').value == 'Pensionista' && hasPatron == false">Próximo</button>
+                </div>
+            </form>
+            
+
+            <form [formGroup]='form2' novalidate>
+            <div id="page2" *ngIf="page == 2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="">*Nome</label>
+                        <input type="text" formControlName='firstName' class="form-control" [class.is-invalid]="form2.get('firstName').touched && form2.get('firstName').invalid">
+                        <p *ngIf="form2.get('firstName').touched && !form2.get('firstName').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">*Sobrenome</label>
+                        <input type="text" formControlName='lastName' class="form-control" [class.is-invalid]="form2.get('lastName').touched && form2.get('lastName').invalid">
+                        <p *ngIf="form2.get('lastName').touched && !form2.get('lastName').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
+                </div>
             <br>
             <div class="row">
                 <div class="col-md-6">
                     <label for="">*E-mail</label>
-                    <input type="email" formControlName='email' class="form-control" [class.is-invalid]="userForm.get('email').touched && userForm.get('email').invalid">
-                    <div *ngIf="userForm.get('email').touched && !userForm.get('email').valid">
-                        <p *ngIf="userForm.get('email').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('email').errors.email"><small style="color:red;">*E-mail inválido</small></p>
+                    <input type="email" formControlName='email' class="form-control" [class.is-invalid]="form2.get('email').touched && form2.get('email').invalid">
+                    <div *ngIf="form2.get('email').touched && !form2.get('email').valid">
+                        <p *ngIf="form2.get('email').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
+                        <p *ngIf="form2.get('email').errors.email"><small style="color:red;">*E-mail inválido</small></p>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="">*Senha</label>
-                    <input type="password" formControlName='password' class="form-control" [class.is-invalid]="userForm.get('password').touched && userForm.get('password').invalid">
-                    <div *ngIf="userForm.get('password').touched && !userForm.get('password').valid">
-                        <p *ngIf="userForm.get('password').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('password').errors.minlength"><small style="color:red;">*A senha deve ter no mínimo 8 caracteres</small></p>
+                    <input type="password" formControlName='password' class="form-control" [class.is-invalid]="form2.get('password').touched && form2.get('password').invalid">
+                    <div *ngIf="form2.get('password').touched && !form2.get('password').valid">
+                        <p *ngIf="form2.get('password').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
+                        <p *ngIf="form2.get('password').errors.minlength"><small style="color:red;">*A senha deve ter no mínimo 8 caracteres</small></p>
                     </div>
                 </div>
             </div>
@@ -43,10 +97,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="">*CPF</label>
-                    <input type="text" formControlName='cpf' class="form-control" [textMask]='{mask: cpfMask, guide: false}' [class.is-invalid]="userForm.get('cpf').touched && userForm.get('cpf').invalid">
-                    <div *ngIf="userForm.get('cpf').touched && !userForm.get('cpf').valid">
-                        <p *ngIf="userForm.get('cpf').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('cpf').errors.minlength"><small style="color:red;">*CPF inválido</small></p>
+                    <input type="text" formControlName='cpf' class="form-control" [textMask]='{mask: cpfMask, guide: false}' [class.is-invalid]="form2.get('cpf').touched && form2.get('cpf').invalid">
+                    <div *ngIf="form2.get('cpf').touched && !form2.get('cpf').valid">
+                        <p *ngIf="form2.get('cpf').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
+                        <p *ngIf="form2.get('cpf').errors.minlength"><small style="color:red;">*CPF inválido</small></p>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -58,274 +112,474 @@
             <div class="row">
                 <label>*Foto atual:</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" formControlName='photoFile' (change) = "onFileChange($event.target.files)" [class.is-invalid]="userForm.get('photoFile').touched && userForm.get('photoFile').invalid">
+                    <input type="file" class="custom-file-input" formControlName='photoFile' (change) = "onFileChange($event.target.files)" [class.is-invalid]="form2.get('photoFile').touched && form2.get('photoFile').invalid">
                     <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Escolha um arquivo</label>
-                    <p *ngIf="userForm.get('photoFile').touched && !userForm.get('photoFile').valid"><small style="color:red;">*Campo
+                    <p *ngIf="form2.get('photoFile').touched && !form2.get('photoFile').valid"><small style="color:red;">*Campo
                             obrigatório</small></p>
                 </div>
             </div>
-            <hr>
-            <label>Telefones:</label>
-            <div class="row">
-                <div class="col-md-2">
-                    <label>*Principal:</label>
-                    <input type="text" formControlName='mainPhone' class="form-control" [textMask]='{mask: phoneMask, guide: false}' [class.is-invalid]="userForm.get('mainPhone').touched && userForm.get('mainPhone').invalid">
-                    <div *ngIf="userForm.get('mainPhone').touched && !userForm.get('mainPhone').valid">
-                        <p *ngIf="userForm.get('mainPhone').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('mainPhone').errors.minlength"><small style="color:red;">*Telefone inválido</small></p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <label>*Tipo:</label>
-                    <mat-select class="form-control" formControlName='mainPhoneType' [class.is-invalid]="userForm.get('mainPhoneType').touched && userForm.get('mainPhoneType').invalid">
-                        <mat-option value="residencial">
-                                residencial
-                            </mat-option>
-                            <mat-option value="celular">
-                                celular
-                            </mat-option>
-                    </mat-select>
-                    <div *ngIf="userForm.get('mainPhoneType').touched && !userForm.get('mainPhoneType').valid">
-                        <p *ngIf="userForm.get('mainPhoneType').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <label>Secundário:</label>
-                    <input type="text" formControlName='secondaryPhone' class="form-control" [textMask]='{mask: phoneMask, guide: false}'>
-                </div>
-                <div class="col-md-3">
-                    <label>Tipo:</label>
-                    <mat-select class="form-control" formControlName='secondaryPhoneType'>
-                        <mat-option value="residencial">
-                                residencial
-                            </mat-option>
-                            <mat-option value="celular">
-                                celular
-                            </mat-option>
-                    </mat-select>
-                </div>
+            <br>
+            <div class="row justify-content-around">
+                <button class='btn btn-primary' type='submit' (click)="changePage(-1); scrollToTop()" >Anterior</button>
+                <button class='btn btn-primary' type='submit' (click)="changePage(1); scrollToTop()" [disabled]="!form2.valid">Próximo</button>
+            </div>
+            </div>
+            </form>
 
-            </div>
-            <hr>
-            <label>Endereços:</label>
-            <br>
-            <br>
-            <label>*Principal</label>
-            <div class="row">
-                <div class="col-md-2">
-                    <label>*CEP</label>
-                    <input type="text" formControlName='mainCEP' class="form-control" [textMask]='{mask: zipCodeMask, guide: false}' [class.is-invalid]="userForm.get('mainCEP').touched && userForm.get('mainCEP').invalid">
-                    <p ><small>(apenas números)</small></p>
-                    <div *ngIf="userForm.get('mainCEP').touched && !userForm.get('mainCEP').valid">
-                        <p *ngIf="userForm.get('mainCEP').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('mainCEP').errors.minlength"><small style="color:red;">*CEP inválido</small></p>
+
+            <form [formGroup]='form3' novalidate>
+                <div id="page3" *ngIf="page == 3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">E-mail institucional</label>
+                            <input type="email" formControlName='institutionalEmail' class="form-control" [class.is-invalid]="form3.get('institutionalEmail').touched && form3.get('institutionalEmail').invalid">
+                            <div *ngIf="form3.get('institutionalEmail').touched && !form3.get('institutionalEmail').valid">
+                                <p *ngIf="form3.get('institutionalEmail').errors.email"><small style="color:red;">*E-mail inválido</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                <label>Telefones:</label>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>*Principal:</label>
+                        <input type="text" formControlName='mainPhone' class="form-control" [textMask]='{mask: phoneMask, guide: false}' [class.is-invalid]="form3.get('mainPhone').touched && form3.get('mainPhone').invalid">
+                        <div *ngIf="form3.get('mainPhone').touched && !form3.get('mainPhone').valid">
+                            <p *ngIf="form3.get('mainPhone').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
+                            <p *ngIf="form3.get('mainPhone').errors.minlength"><small style="color:red;">*Telefone inválido</small></p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>*Tipo:</label>
+                        <mat-select class="form-control" formControlName='mainPhoneType' [class.is-invalid]="form3.get('mainPhoneType').touched && form3.get('mainPhoneType').invalid">
+                            <mat-option value="residencial">
+                                    residencial
+                                </mat-option>
+                                <mat-option value="celular">
+                                    celular
+                                </mat-option>
+                        </mat-select>
+                        <div *ngIf="form3.get('mainPhoneType').touched && !form3.get('mainPhoneType').valid">
+                            <p *ngIf="form3.get('mainPhoneType').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Secundário:</label>
+                        <input type="text" formControlName='secondaryPhone' class="form-control" [textMask]='{mask: phoneMask, guide: false}'>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Tipo:</label>
+                        <mat-select class="form-control" formControlName='secondaryPhoneType'>
+                            <mat-option value="residencial">
+                                    residencial
+                                </mat-option>
+                                <mat-option value="celular">
+                                    celular
+                                </mat-option>
+                        </mat-select>
+                    </div>
+
+                </div>
+                <hr>
+                <label>Endereços:</label>
+                <br>
+                <br>
+                <label>*Principal</label>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>*CEP</label>
+                        <input type="text" formControlName='mainCEP' class="form-control" [textMask]='{mask: zipCodeMask, guide: false}' [class.is-invalid]="form3.get('mainCEP').touched && form3.get('mainCEP').invalid">
+                        <p ><small>(apenas números)</small></p>
+                        <div *ngIf="form3.get('mainCEP').touched && !form3.get('mainCEP').valid">
+                            <p *ngIf="form3.get('mainCEP').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
+                            <p *ngIf="form3.get('mainCEP').errors.minlength"><small style="color:red;">*CEP inválido</small></p>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <label style="color: white;">Buscar</label>
+                        <button mat-raised-button color="primary">Buscar CEP</button>
                     </div>
                 </div>
-                <div class="col-md-1">
-                    <label style="color: white;">Buscar</label>
-                    <button mat-raised-button color="primary">Buscar CEP</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label>*Logradouro:</label>
-                    <input type="text" formControlName='mainStreet' class="form-control" [class.is-invalid]="userForm.get('mainStreet').touched && userForm.get('mainStreet').invalid">
-                    <p *ngIf="userForm.get('mainStreet').touched && !userForm.get('mainStreet').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
-                </div>
-                <div class="col-md-2">
-                    <label>*Número:</label>
-                    <input type="text" formControlName='mainNumber' class="form-control" [class.is-invalid]="userForm.get('mainNumber').touched && userForm.get('mainNumber').invalid">
-                    <p *ngIf="userForm.get('mainNumber').touched && !userForm.get('mainNumber').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-6">
-                    <label>Complemento:</label>
-                    <input type="text" formControlName='mainComplement' class="form-control">
-                </div>
-                <div class="col-md-6">
-                    <label>*Bairro:</label>
-                    <input type="text" formControlName='mainDistrict' class="form-control" [class.is-invalid]="userForm.get('mainDistrict').touched && userForm.get('mainDistrict').invalid">
-                    <p *ngIf="userForm.get('mainDistrict').touched && !userForm.get('mainDistrict').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <label>*Cidade:</label>
-                    <input type="text" formControlName='mainCity' class="form-control" [class.is-invalid]="userForm.get('mainCity').touched && userForm.get('mainCity').invalid">
-                    <p *ngIf="userForm.get('mainCity').touched && !userForm.get('mainCity').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
-                </div>
-                <div class="col-md-1">
-                    <label>*Estado:</label>
-                    <input type="text" formControlName='mainState' class="form-control" [class.is-invalid]="userForm.get('mainState').touched && userForm.get('mainState').invalid">
-                    <p *ngIf="userForm.get('mainState').touched && !userForm.get('mainState').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
-                </div>
-            </div>
-            <br>
-            <br>
-            <label>Secundário</label>
-            <div class="row">
-                <div class="col-md-2">
-                    <label>CEP</label>
-                    <input type="text" formControlName='secondaryCEP' class="form-control" [textMask]='{mask: zipCodeMask, guide: false}'>
-                    <p ><small>(apenas números)</small></p>
-                </div>
-                <div class="col-md-1">
-                    <label style="color: white;">Buscar</label>
-                    <button mat-raised-button color="primary">Buscar CEP</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label>Logradouro:</label>
-                    <input type="text" formControlName='secondaryStreet' class="form-control">
-                </div>
-                <div class="col-md-2">
-                    <label>Número:</label>
-                    <input type="text" formControlName='secondaryNumber' class="form-control">
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-6">
-                    <label>Complemento:</label>
-                    <input type="text" formControlName='secondaryComplement' class="form-control">
-                </div>
-                <div class="col-md-6">
-                    <label>Bairro:</label>
-                    <input type="text" formControlName='secondaryDistrict' class="form-control">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <label>Cidade:</label>
-                    <input type="text" formControlName='secondaryCity' class="form-control">
-                </div>
-                <div class="col-md-1">
-                    <label>Estado:</label>
-                    <input type="text" formControlName='secondaryState' class="form-control">
-                </div>
-            </div>
-            <hr>
-            <label>*Gênero:</label>
-            <div class="row">
-                <mat-radio-group aria-label="Select an option" formControlName='gender' [class.is-invalid]="userForm.get('gender').touched && userForm.get('gender').invalid">
-                    <mat-radio-button class="col-md-4" value="Masculino">Masculino</mat-radio-button>
-                    <mat-radio-button class="col-md-4" value="Feminino">Feminino</mat-radio-button>
-                    <mat-radio-button class="col-md-4" value="Outro">Outro</mat-radio-button>
-                </mat-radio-group>
-                <p *ngIf="userForm.get('gender').touched && !userForm.get('gender').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
-            </div>
-            <br>
-             <div class="row">
-                 <div class="col-md-3">
-                    <label>Estado civil:</label>
-                        <mat-select class="form-control" formControlName='maritalStatus' [class.is-invalid]="userForm.get('maritalStatus').touched && userForm.get('maritalStatus').invalid">
-                            <mat-option value="Solteiro(a)">Solteiro(a)</mat-option>
-                            <mat-option value="Casado(a)">Casado(a)</mat-option>
-                            <mat-option value="Divorciado(a)">Divorciado(a)</mat-option>
-                            <mat-option value="Viúvo(a)">Viúvo(a)</mat-option>
-                            <mat-option value="Separado(a)">Separado(a)</mat-option>
-                        </mat-select>
-                        <p *ngIf="userForm.get('maritalStatus').touched && !userForm.get('maritalStatus').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
-                 </div>
-                 <div class="col-md-3">
-                    <label>Escolaridade:</label>
-                        <mat-select class="form-control" formControlName='scholarity' [class.is-invalid]="userForm.get('scholarity').touched && userForm.get('scholarity').invalid">
-                            <mat-option value="Fundamental">Fundamental</mat-option>
-                            <mat-option value="Médio incompleto">Médio incompleto</mat-option>
-                            <mat-option value="Médio completo">Médio completo</mat-option>
-                            <mat-option value="Superior incompleto">Superior incompleto</mat-option>
-                            <mat-option value="Superior completo">Superior completo</mat-option>
-                            <mat-option value="Pós-graduação">Pós-graduação</mat-option>
-                            <mat-option value="Mestrado">Mestrado</mat-option>
-                            <mat-option value="Doutorado">Doutorado</mat-option>
-                        </mat-select>
-                        <p *ngIf="userForm.get('scholarity').touched && !userForm.get('scholarity').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
-                 </div>
-                 <div class="col-md-3">
-                    <label>Profissão:</label>
-                    <input type="text" formControlName='profession' class="form-control">   
-                 </div>
-             </div>
-             <hr>
-             <div class="row">
-                <div class="col-md-6">
-                    <label>Nome do pai:</label>
-                    <input type="text" formControlName='fatherName' class="form-control">
-                </div>
-                <div class="col-md-6">
-                    <label>Nome da mãe:</label>
-                    <input type="text" formControlName='motherName' class="form-control">
-                </div>
-             </div>
-             <br>
-             <div class="row">
-                <div class="col-md-3">
-                    <label>*Data de nascimento</label>
-                    <input type="text" formControlName='birthdate' class="form-control" [textMask]='{mask: dateMask, guide: false}' [class.is-invalid]="userForm.get('birthdate').touched && userForm.get('birthdate').invalid">
-                    <div *ngIf="userForm.get('birthdate').touched && !userForm.get('birthdate').valid">
-                        <p *ngIf="userForm.get('birthdate').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
-                        <p *ngIf="userForm.get('birthdate').errors.minlength"><small style="color:red;">*Data inválida</small></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>*Logradouro:</label>
+                        <input type="text" formControlName='mainStreet' class="form-control" [class.is-invalid]="form3.get('mainStreet').touched && form3.get('mainStreet').invalid">
+                        <p *ngIf="form3.get('mainStreet').touched && !form3.get('mainStreet').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
+                    <div class="col-md-2">
+                        <label>*Número:</label>
+                        <input type="text" formControlName='mainNumber' class="form-control" [class.is-invalid]="form3.get('mainNumber').touched && form3.get('mainNumber').invalid">
+                        <p *ngIf="form3.get('mainNumber').touched && !form3.get('mainNumber').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <label>Naturalidade</label>
-                    <input type="text" formControlName='placeOfBirth' class="form-control">
-                </div>
-                <div class="col-md-3">
-                    <label>Nacionalidade</label>
-                    <input type="text" formControlName='nationality' class="form-control">
-                </div>
-             </div>
-             <br>
-             <div class="row">
-                <div class="col-md-2">
-                    <label>*Nº de identidade:</label>
-                    <input type="text" formControlName='identityNumber' class="form-control" [class.is-invalid]="userForm.get('identityNumber').touched && userForm.get('identityNumber').invalid">
-                    <p *ngIf="userForm.get('identityNumber').touched && !userForm.get('identityNumber').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
-                </div>
-                <div class="col-md-3">
-                    <label>*Orgão emissor:</label>
-                    <input type="text" formControlName='identityInstitution' class="form-control" [class.is-invalid]="userForm.get('identityNumber').touched && userForm.get('identityNumber').invalid">
-                    <p *ngIf="userForm.get('identityNumber').touched && !userForm.get('identityNumber').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
-                </div>
-            </div>
                 <br>
                 <div class="row">
-                <div class="col-md-3">
-                    <label>Carteira de Trabalho:</label>
-                    <input type="text" formControlName='ctps' class="form-control">
+                    <div class="col-md-6">
+                        <label>Complemento:</label>
+                        <input type="text" formControlName='mainComplement' class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label>*Bairro:</label>
+                        <input type="text" formControlName='mainDistrict' class="form-control" [class.is-invalid]="form3.get('mainDistrict').touched && form3.get('mainDistrict').invalid">
+                        <p *ngIf="form3.get('mainDistrict').touched && !form3.get('mainDistrict').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
                 </div>
-             </div>
-             <br>
-             <div class="row">
-                <div class="col-md-2">
-                    <label>OAB:</label>
-                    <input type="text" formControlName='oab' class="form-control">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>*Cidade:</label>
+                        <input type="text" formControlName='mainCity' class="form-control" [class.is-invalid]="form3.get('mainCity').touched && form3.get('mainCity').invalid">
+                        <p *ngIf="form3.get('mainCity').touched && !form3.get('mainCity').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
+                    <div class="col-md-1">
+                        <label>*Estado:</label>
+                        <input type="text" formControlName='mainState' class="form-control" [class.is-invalid]="form3.get('mainState').touched && form3.get('mainState').invalid">
+                        <p *ngIf="form3.get('mainState').touched && !form3.get('mainState').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label>Identidade profissional :</label>
-                    <input type="text" formControlName='professionalIdentity' class="form-control">
+                <br>
+                <br>
+                <label>Secundário</label>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>CEP</label>
+                        <input type="text" formControlName='secondaryCEP' class="form-control" [textMask]='{mask: zipCodeMask, guide: false}'>
+                        <p ><small>(apenas números)</small></p>
+                    </div>
+                    <div class="col-md-1">
+                        <label style="color: white;">Buscar</label>
+                        <button mat-raised-button color="primary">Buscar CEP</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Logradouro:</label>
+                        <input type="text" formControlName='secondaryStreet' class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label>Número:</label>
+                        <input type="text" formControlName='secondaryNumber' class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Complemento:</label>
+                        <input type="text" formControlName='secondaryComplement' class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Bairro:</label>
+                        <input type="text" formControlName='secondaryDistrict' class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Cidade:</label>
+                        <input type="text" formControlName='secondaryCity' class="form-control">
+                    </div>
+                    <div class="col-md-1">
+                        <label>Estado:</label>
+                        <input type="text" formControlName='secondaryState' class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row justify-content-around">
+                    <button class='btn btn-primary' type='submit' (click)="changePage(-1); scrollToTop()" >Anterior</button>
+                    <button class='btn btn-primary' type='submit' (click)="changePage(1); scrollToTop()" [disabled]="!form3.valid" >Próximo</button>
+                </div>
+                </div>
+            </form>
+            
+           <form [formGroup]='form4' novalidate>
+                <div id="page4" *ngIf="page == 4">
+                    <label>*Gênero:</label>
+                <div class="row">
+                    <mat-radio-group aria-label="Select an option" formControlName='gender' [class.is-invalid]="form4.get('gender').touched && form4.get('gender').invalid">
+                        <mat-radio-button class="col-md-4" value="Masculino">Masculino</mat-radio-button>
+                        <mat-radio-button class="col-md-4" value="Feminino">Feminino</mat-radio-button>
+                        <mat-radio-button class="col-md-4" value="Outro">Outro</mat-radio-button>
+                    </mat-radio-group>
+                    <p *ngIf="form4.get('gender').touched && !form4.get('gender').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Estado civil:</label>
+                            <mat-select class="form-control" formControlName='maritalStatus' [class.is-invalid]="form4.get('maritalStatus').touched && form4.get('maritalStatus').invalid">
+                                <mat-option value="Solteiro(a)">Solteiro(a)</mat-option>
+                                <mat-option value="Casado(a)">Casado(a)</mat-option>
+                                <mat-option value="Divorciado(a)">Divorciado(a)</mat-option>
+                                <mat-option value="Viúvo(a)">Viúvo(a)</mat-option>
+                                <mat-option value="Separado(a)">Separado(a)</mat-option>
+                            </mat-select>
+                            <p *ngIf="form4.get('maritalStatus').touched && !form4.get('maritalStatus').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Escolaridade:</label>
+                            <mat-select class="form-control" formControlName='scholarity' [class.is-invalid]="form4.get('scholarity').touched && form4.get('scholarity').invalid">
+                                <mat-option value="Fundamental">Fundamental</mat-option>
+                                <mat-option value="Médio incompleto">Médio incompleto</mat-option>
+                                <mat-option value="Médio completo">Médio completo</mat-option>
+                                <mat-option value="Superior incompleto">Superior incompleto</mat-option>
+                                <mat-option value="Superior completo">Superior completo</mat-option>
+                                <mat-option value="Pós-graduação">Pós-graduação</mat-option>
+                                <mat-option value="Mestrado">Mestrado</mat-option>
+                                <mat-option value="Doutorado">Doutorado</mat-option>
+                            </mat-select>
+                            <p *ngIf="form4.get('scholarity').touched && !form4.get('scholarity').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Profissão:</label>
+                        <input type="text" formControlName='profession' class="form-control">   
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    
+                    <div class="col-md-3">
+                        <label>*Tipo sanguíneo:</label>
+                            <mat-select class="form-control" formControlName='bloodType' [class.is-invalid]="form4.get('bloodType').touched && form4.get('bloodType').invalid">
+                                <mat-option value="A">A</mat-option>
+                                <mat-option value="B">B</mat-option>
+                                <mat-option value="AB">AB</mat-option>
+                                <mat-option value="O">O</mat-option>
+                            </mat-select>
+                            <p *ngIf="form4.get('bloodType').touched && !form4.get('bloodType').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>*Fator RH:</label>
+                            <mat-select class="form-control" formControlName='bloodRH' [class.is-invalid]="form4.get('bloodRH').touched && form4.get('bloodRH').invalid">
+                                <mat-option value="positivo">Positivo</mat-option>
+                                <mat-option value="negativo">negativo</mat-option>
+                            </mat-select>
+                            <p *ngIf="form4.get('bloodRH').touched && !form4.get('bloodRH').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Nome do pai:</label>
+                        <input type="text" formControlName='fatherName' class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Nome da mãe:</label>
+                        <input type="text" formControlName='motherName' class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>*Data de nascimento</label>
+                        <input type="text" formControlName='birthdate' class="form-control" [textMask]='{mask: dateMask, guide: false}' [class.is-invalid]="form4.get('birthdate').touched && form4.get('birthdate').invalid">
+                        <div *ngIf="form4.get('birthdate').touched && !form4.get('birthdate').valid">
+                            <p *ngIf="form4.get('birthdate').errors.required"><small style="color:red;">*Campo obrigatório</small></p>
+                            <p *ngIf="form4.get('birthdate').errors.minlength"><small style="color:red;">*Data inválida</small></p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Naturalidade</label>
+                        <input type="text" formControlName='placeOfBirth' class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Nacionalidade</label>
+                        <input type="text" formControlName='nationality' class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>*Nº de identidade:</label>
+                        <input type="text" formControlName='identityNumber' class="form-control" [class.is-invalid]="form4.get('identityNumber').touched && form4.get('identityNumber').invalid">
+                        <p *ngIf="form4.get('identityNumber').touched && !form4.get('identityNumber').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>*Orgão emissor:</label>
+                        <input type="text" formControlName='identityInstitution' class="form-control" [class.is-invalid]="form4.get('identityNumber').touched && form4.get('identityNumber').invalid">
+                        <p *ngIf="form4.get('identityNumber').touched && !form4.get('identityNumber').valid"><small style="color:red;">*Campo
+                                obrigatório</small></p>
+                    </div>
+                </div>
+                    <br>
+                    <div class="row">
+                    <div class="col-md-3">
+                        <label>Carteira de Trabalho:</label>
+                        <input type="text" formControlName='ctps' class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>OAB:</label>
+                        <input type="text" formControlName='oab' class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Identidade profissional:</label>
+                        <input type="text" formControlName='professionalIdentity' class="form-control">
+                    </div>
+                </div> 
+                <br>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Data de admissão:</label>
+                        <input type="text" formControlName='admissionDate' [textMask]='{mask: dateMask, guide: false}' class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Delegacia de Lotação:</label>
+                        <input type="text" formControlName='stockingstation' class="form-control">
+                    </div>
+                </div> 
+                <br>
+                <div class="row justify-content-around">
+                    <button class='btn btn-primary' type='submit' (click)="changePage(-1); scrollToTop()" >Anterior</button>
+                    <button class='btn btn-primary' type='submit' (click)="changePage(1); scrollToTop()" [disabled]="!form4.valid" >Próximo</button>
+                </div>
+                </div>
+            </form>
+            
+            <form [formGroup]='form5' novalidate>
+                <div id="page5" *ngIf="page == 5">
+                    <div class="row">
+                        *
+                        <mat-radio-group aria-label="Select an option" formControlName='hasDependant'>
+                            <mat-radio-button class="col-md-6" value="yes">Tenho dependente(s)</mat-radio-button>
+                            <mat-radio-button class="col-md-6" value="no">Não tenho dependente(s)</mat-radio-button>
+                        </mat-radio-group>
+                        <p *ngIf="form1.get('type').touched && !form1.get('type').valid"><small style="color:red;">*Campo
+                                   obrigatório</small></p>
+                    </div>
+                    <div *ngIf="form5.get('hasDependant').value == 'yes'">
+                        <div class="row">
+                            <div class="col-md-3">
+                            <label>Dependentes</label>
+                                <mat-select class="form-control" formControlName='dependantType' [class.is-invalid]="form5.get('dependantType').touched && form5.get('dependantType').invalid">
+                                    <mat-option value="conjuge-companheiro">Cônjuge/Companheiro</mat-option>
+                                    <mat-option value="filho(a)">Filho(a)</mat-option>
+                                    <mat-option value="mãe-pai">Mãe/Pai</mat-option>
+                                    <mat-option value="outro">Outro</mat-option>
+                                </mat-select>
+                            </div>
+                            <br>
+                            <div *ngIf="form5.get('dependantType').value == 'outro'">
+                                <label>Outro:</label>
+                                <input type="text" formControlName='otherDependentType' class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Nome:</label>
+                                <input type="text" formControlName='dependantName' [textMask]='{mask: dateMask, guide: false}' class="form-control">
+                            </div>
+                            <div class="col-md-3">
+                                <label>CPF:</label>
+                                <input type="text" formControlName='dependantcpf' [textMask]='{mask: dateMask, guide: false}' class="form-control">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Data de nascimento:</label>
+                                <input type="text" formControlName='dependantBirthdate' [textMask]='{mask: dateMask, guide: false}' class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Telefone:</label>
+                                <input type="text" formControlName='dependantPhoneNumber' [textMask]='{mask: dateMask, guide: false}' class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label>E-mail:</label>
+                                <input type="text" formControlName='dependantEmail' [textMask]='{mask: dateMask, guide: false}' class="form-control">
+                            </div>
+                        </div>
+                    </div>    
+                    <br>
+                    <div class="row justify-content-around">
+                        <button class='btn btn-primary' type='submit' (click)="changePage(-1); scrollToTop()" >Anterior</button>
+                        <button class='btn btn-primary' type='submit' (click)="changePage(1); scrollToTop()" [disabled]="!form5.valid" >Próximo</button>
+                    </div>
+                </div>
+            </form>
+            
+            <form [formGroup]='form6' novalidate>
+                <div id="page6" *ngIf="page == 6">
+                    <label>Plano de Saúde:</label>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Operadora/Corretora vinculada</label>
+                            <mat-select class="form-control" formControlName='HIOperator' [class.is-invalid]="form6.get('HIOperator').touched && form6.get('HIOperator').invalid">
+                                <mat-option value="Aliança">Aliança</mat-option>
+                                <mat-option value="Elo Saúde">Elo Saúde</mat-option>
+                                <mat-option value="Unimed FESP">Unimed FESP</mat-option>
+                                <mat-option value="Geap">Geap</mat-option>
+                                <mat-option value="Planserv">Planserv</mat-option>
+                                <mat-option value="outro">Outro</mat-option>
+                            </mat-select>
+                        </div>
+                        <br>
+                        <div *ngIf="form6.get('HIOperator').value == 'outro'">
+                            <label>Outro:</label>
+                            <input type="text" formControlName='otherHIOperator' class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Nome do Plano</label>
+                            <mat-select class="form-control" formControlName='HIName' [class.is-invalid]="form6.get('HIName').touched && form6.get('HIName').invalid">
+                                <mat-option value="Medial">Medial</mat-option>
+                                <mat-option value="Amil">Amil</mat-option>
+                                <mat-option value="Bradesco">Bradesco</mat-option>
+                                <mat-option value="Sulamérica">Sulamérica</mat-option>
+                                <mat-option value="Unimed">Unimed</mat-option>
+                                <mat-option value="Planserv">Planserv</mat-option>
+                                <mat-option value="Geap">Geap</mat-option>
+                                <mat-option value="Cassi">Cassi</mat-option>
+                                <mat-option value="Saúde">Saúde Caixa</mat-option>
+                                <mat-option value="Outro">Outro</mat-option>
+                            </mat-select>
+                        </div>
+                        <br>
+                        <div *ngIf="form6.get('HIName').value == 'Outro'">
+                            <label>Outro:</label>
+                            <input type="text" formControlName='otherHIName' class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Número da Carteira do Plano</label>
+                            <input type="text" formControlName='HINumber' class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Foto da carteirinha do plano</label>
+                            <input type="file" formControlName='HIPhoto' class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </form>
+           
+            
+
+            
+        
+        
         <br>
-        <button class='btn btn-primary' type='submit' (click)="registerUser()" [disabled]="!userForm.valid">Finalizar cadastro</button>
     </div>
 </section>
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+ <!-- <button class='btn btn-primary' type='submit' (click)="registerUser()" [disabled]="!userForm.valid">Finalizar cadastro</button> -->
 
 
 

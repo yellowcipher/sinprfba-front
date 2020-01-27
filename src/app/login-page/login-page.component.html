@@ -13,6 +13,13 @@
           <h1>{{user.lastName}}, {{user.firstName}}</h1>
         </div>
         <br>
+        <div class="row justify-content-center">
+          <h4>{{user.status}}</h4>
+        </div>
+        <div class="row justify-content-center" *ngIf='user.status == &quot;Desfiliado&quot;'>
+          <small> Baixe <a href="">este</a> pdf e siga as instrução nele contidas para finalizar sua filiação. Prazo de x dias úteis para atualização no sistema. </small>
+        </div>
+        <br>
      
          
         <!-- accordion -->

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as firebase from 'firebase';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { User, UserInfo } from '../models/user';
+import { User, UserInfo, Dependant } from '../models/user';
 import { UserService } from '../services/user.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from '../services/auth.service';
@@ -18,8 +18,17 @@ export class UserRegistrationComponent implements OnInit {
 	labelImport: ElementRef;
 
 	userForm: FormGroup;
+	form1: FormGroup;
+	form2: FormGroup;
+	form3: FormGroup;
+	form4: FormGroup;
+	form5: FormGroup;
+	form6: FormGroup;
 	// user$: User;
 	public loading = false;
+	public hasPatron = null;
+	public patronName = '';
+	public page = 1;
 
 	public phoneMask = function(rawValue) {
 		let numbers = rawValue.match(/\d/g);
@@ -47,6 +56,14 @@ export class UserRegistrationComponent implements OnInit {
 	) {}
 	// userPassword: String;
 	fileToUpload: File;
+	dependant: Dependant = {
+		type: '',
+		name: '',
+		cpf: '',
+		birthdate: '',
+		email: '',
+		phone: { number: '', type: '' },
+	};
 	userInfo: UserInfo = {
 		gender: '',
 		maritalStatus: '',
@@ -62,11 +79,19 @@ export class UserRegistrationComponent implements OnInit {
 		ctps: '',
 		OAB: '',
 		professionalIdentity: '',
+		admissionDate: '',
+		stockingstation: '',
+		bloodType: '',
+		bloodRH: '',
+		dependant: this.dependant,
 	};
 	user: User = {
 		firstName: '',
 		lastName: '',
+		type: '',
+		patron: '',
 		email: '',
+		institutionalEmail: '',
 		cpf: '',
 		registry: '',
 		mainImage: '',
@@ -79,7 +104,14 @@ export class UserRegistrationComponent implements OnInit {
 	};
 
 	ngOnInit() {
-		this.userForm = this.fb.group({
+		this.userForm = this.fb.group({});
+
+		this.form1 = this.fb.group({
+			type: [ '', [ Validators.required ] ],
+			patronsCPF: [ '', [ Validators.minLength(14) ] ],
+		});
+
+		this.form2 = this.fb.group({
 			firstName: [ '', [ Validators.required ] ],
 			lastName: [ '', [ Validators.required ] ],
 			email: [ '', [ Validators.required, Validators.email ] ],
@@ -87,6 +119,10 @@ export class UserRegistrationComponent implements OnInit {
 			cpf: [ '', [ Validators.required, Validators.minLength(14) ] ],
 			registry: [ '' ],
 			photoFile: [ null, [ Validators.required ] ],
+		});
+
+		this.form3 = this.fb.group({
+			institutionalEmail: [ '', [ Validators.email ] ],
 			mainPhone: [ '', [ Validators.required, Validators.minLength(14) ] ],
 			mainPhoneType: [ '', [ Validators.required ] ],
 			secondaryPhone: [ '' ],
@@ -105,6 +141,9 @@ export class UserRegistrationComponent implements OnInit {
 			secondaryDistrict: [ '' ],
 			secondaryCity: [ '' ],
 			secondaryState: [ '' ],
+		});
+
+		this.form4 = this.fb.group({
 			gender: [ '', [ Validators.required ] ],
 			maritalStatus: [ '' ],
 			scholarity: [ '' ],
@@ -119,9 +158,33 @@ export class UserRegistrationComponent implements OnInit {
 			ctps: [ '' ],
 			oab: [ '' ],
 			professionalIdentity: [ '' ],
+			admissionDate: [ '' ],
+			stockingstation: [ '' ],
+			bloodType: [ '', [ Validators.required ] ],
+			bloodRH: [ '', [ Validators.required ] ],
 		});
 
-		this.userInfo.gender = this.userForm.get('gender').value;
+		this.form5 = this.fb.group({
+			hasDependant: [ '' ],
+			dependantType: [ '' ],
+			dependantName: [ '' ],
+			dependantcpf: [ '' ],
+			dependantBirthdate: [ '' ],
+			dependantPhoneType: [ '' ],
+			dependantPhoneNumber: [ '' ],
+			dependantEmail: [ '' ],
+			otherDependentType: [ '' ],
+		});
+
+		this.form6 = this.fb.group({
+			HIOperator: [ '' ],
+			otherHIOperator: [ '' ],
+			HIName: [ '' ],
+			otherHIName: [ '' ],
+			HINumber: [ '' ],
+			HIPhoto: [ '' ],
+		});
+		// this.userInfo.gender = this.userForm.get('gender').value;
 	}
 
 	onFileChange(files: FileList) {
@@ -205,5 +268,43 @@ export class UserRegistrationComponent implements OnInit {
 		this.userInfo.professionalIdentity = this.userForm.get('professionalIdentity').value;
 		this.user.uid = uid;
 		// console.log(this.user);
+	}
+
+	async searchByCPF(cpf) {
+		var fullName;
+		await this.afs.collection('users', (ref) => ref.where('cpf', '==', cpf)).snapshotChanges().subscribe((val) => {
+			var response = val[0];
+
+			if (response != undefined) {
+				var firstName = response['payload']['doc']['_document']['proto']['fields']['firstName']['stringValue'];
+				var lastName = response['payload']['doc']['_document']['proto']['fields']['lastName']['stringValue'];
+				fullName = firstName + ' ' + lastName;
+				this.hasPatron = true;
+				this.patronName = fullName;
+				// console.log(fullName);
+
+				return fullName;
+			} else {
+				fullName = null;
+				this.hasPatron = false;
+				return fullName;
+			}
+
+			// console.log(val[0]['payload']['doc']['_document']['proto']['fields'])
+		});
+	}
+
+	changePage(value) {
+		this.page += value;
+	}
+
+	scrollToTop() {
+		// window.scrollTo(0, 0);
+
+		window.scrollTo({
+			top: 0,
+			left: 0,
+			behavior: 'smooth',
+		});
 	}
 }

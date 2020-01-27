@@ -1,8 +1,11 @@
 export interface User {
 	uid?: string;
+	type: string;
+	patron?: string;
 	firstName: string;
 	lastName: string;
 	email: string;
+	institutionalEmail: string;
 	cpf?: string;
 	registry?: string; //matrícula
 	mainImage: string;
@@ -32,6 +35,11 @@ export interface UserInfo {
 	ctps: string;
 	OAB: string;
 	professionalIdentity: string;
+	admissionDate: string;
+	stockingstation: string;
+	bloodType: string;
+	bloodRH: string;
+	dependant: Dependant;
 }
 
 export interface Address {
@@ -42,4 +50,13 @@ export interface Address {
 	state?: string;
 	city?: string;
 	zipCode?: string;
+}
+
+export interface Dependant {
+	type: string;
+	name: string;
+	cpf: string;
+	birthdate: string;
+	phone: PhoneNumber;
+	email: string;
 }

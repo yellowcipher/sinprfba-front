@@ -3,7 +3,7 @@ import { AngularFirestore, QueryFn } from '@angular/fire/firestore';
 import { BaseService } from './base.service';
 import { User } from '../models/user';
 import { Observable } from 'rxjs';
-import { map, finalize } from 'rxjs/operators';
+import { map, finalize, take } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
 import * as firebase from 'firebase';
 
@@ -36,6 +36,35 @@ export class UserService {
 		return new Promise((resolve) => {
 			task.snapshotChanges().pipe(finalize(() => resolve(fileRef.getDownloadURL().toPromise()))).subscribe();
 		});
+	}
+
+	async searchByCPF(cpf: string) {
+		var selectedUser;
+		await this.afs.collection('users', (ref) => ref.where('cpf', '==', cpf)).snapshotChanges().subscribe((val) => {
+			var response = val[0];
+
+			// console.log(response['payload']['doc']['_document']['proto']['fields']['firstName']['stringValue']);
+			if (response != undefined) {
+				selectedUser = response['payload']['doc']['_document']['proto']['fields']['firstName']['stringValue'];
+				console.log(selectedUser);
+
+				return selectedUser;
+			} else {
+				selectedUser = null;
+				console.log(selectedUser);
+				return selectedUser;
+			}
+
+			// console.log(val[0]['payload']['doc']['_document']['proto']['fields'])
+		});
+
+		// no lugar do console.log colocar uma funcão anônima que analiza se é vazio ou não.
+		//ou talvez jogar pra uma variável e retornar ele e deixar outra função ver se ela está vazia
+
+		// var selectedUser = selectedUserRef.subscribe((val) => console.log('1 ' + val));
+		// console.log('2 ' + selectedUser);
+
+		// return selectedUser;
 	}
 
 	// private join(...args: string[]) {
