@@ -1,11 +1,20 @@
-<div>
+<div *ngIf='loading; else resForm'>
+    <section class="my-5">
+        <div class="row justify-content-center">
+            Finalizando cadastro, não saia ou recarregue a página
+        </div>
+    </section>
+</div>
+
+<ng-template #resForm>
+    <div>
     <section class="my-5">
     <div class="container">
         <div class="block-heading">
             <h2 class="text-info">Faça seu cadastro</h2>
         </div>
         <div class="row justify-content-center">
-            {{page}}/x
+            {{page}}/6
         </div>
         <p><small>Campos com * são obrigatórios</small></p>
         
@@ -110,12 +119,10 @@
             </div>
             <hr>
             <div class="row">
-                <label>*Foto atual:</label>
+                <label>Foto atual:</label>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" formControlName='photoFile' (change) = "onFileChange($event.target.files)" [class.is-invalid]="form2.get('photoFile').touched && form2.get('photoFile').invalid">
                     <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Escolha um arquivo</label>
-                    <p *ngIf="form2.get('photoFile').touched && !form2.get('photoFile').valid"><small style="color:red;">*Campo
-                            obrigatório</small></p>
                 </div>
             </div>
             <br>
@@ -412,23 +419,6 @@
                     </div>
                 </div>
                     <br>
-                    <div class="row">
-                    <div class="col-md-3">
-                        <label>Carteira de Trabalho:</label>
-                        <input type="text" formControlName='ctps' class="form-control">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-2">
-                        <label>OAB:</label>
-                        <input type="text" formControlName='oab' class="form-control">
-                    </div>
-                    <div class="col-md-3">
-                        <label>Identidade profissional:</label>
-                        <input type="text" formControlName='professionalIdentity' class="form-control">
-                    </div>
-                </div> 
                 <br>
                 <div class="row">
                     <div class="col-md-2">
@@ -452,14 +442,12 @@
                 <div id="page5" *ngIf="page == 5">
                     <div class="row">
                         *
-                        <mat-radio-group aria-label="Select an option" formControlName='hasDependant'>
+                        <mat-radio-group aria-label="Select an option" formControlName='hasDependants'>
                             <mat-radio-button class="col-md-6" value="yes">Tenho dependente(s)</mat-radio-button>
                             <mat-radio-button class="col-md-6" value="no">Não tenho dependente(s)</mat-radio-button>
                         </mat-radio-group>
-                        <p *ngIf="form1.get('type').touched && !form1.get('type').valid"><small style="color:red;">*Campo
-                                   obrigatório</small></p>
                     </div>
-                    <div *ngIf="form5.get('hasDependant').value == 'yes'">
+                    <div *ngIf="form5.get('hasDependants').value == 'yes'">
                         <div class="row">
                             <div class="col-md-3">
                             <label>Dependentes</label>
@@ -467,11 +455,11 @@
                                     <mat-option value="conjuge-companheiro">Cônjuge/Companheiro</mat-option>
                                     <mat-option value="filho(a)">Filho(a)</mat-option>
                                     <mat-option value="mãe-pai">Mãe/Pai</mat-option>
-                                    <mat-option value="outro">Outro</mat-option>
+                                    <mat-option value="Outro">Outro</mat-option>
                                 </mat-select>
                             </div>
                             <br>
-                            <div *ngIf="form5.get('dependantType').value == 'outro'">
+                            <div *ngIf="form5.get('dependantType').value == 'Outro'">
                                 <label>Outro:</label>
                                 <input type="text" formControlName='otherDependentType' class="form-control">
                             </div>
@@ -479,11 +467,11 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label>Nome:</label>
-                                <input type="text" formControlName='dependantName' [textMask]='{mask: dateMask, guide: false}' class="form-control">
+                                <input type="text" formControlName='dependantName' class="form-control">
                             </div>
                             <div class="col-md-3">
                                 <label>CPF:</label>
-                                <input type="text" formControlName='dependantcpf' [textMask]='{mask: dateMask, guide: false}' class="form-control">
+                                <input type="text" formControlName='dependantcpf' [textMask]='{mask: cpfMask, guide: false}' class="form-control">
                             </div>
                             <div class="col-md-3">
                                 <label>Data de nascimento:</label>
@@ -493,11 +481,14 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label>Telefone:</label>
-                                <input type="text" formControlName='dependantPhoneNumber' [textMask]='{mask: dateMask, guide: false}' class="form-control">
+                                <input type="text" formControlName='dependantPhoneNumber' [textMask]='{mask: phoneMask, guide: false}' class="form-control">
                             </div>
                             <div class="col-md-4">
                                 <label>E-mail:</label>
-                                <input type="text" formControlName='dependantEmail' [textMask]='{mask: dateMask, guide: false}' class="form-control">
+                                <input type="text" formControlName='dependantEmail' class="form-control">
+                                <div *ngIf="form5.get('dependantEmail').touched && !form5.get('dependantEmail').valid">
+                                    <p *ngIf="form5.get('dependantEmail').errors.email"><small style="color:red;">*E-mail inválido</small></p>
+                                </div>
                             </div>
                         </div>
                     </div>    
@@ -521,7 +512,7 @@
                                 <mat-option value="Unimed FESP">Unimed FESP</mat-option>
                                 <mat-option value="Geap">Geap</mat-option>
                                 <mat-option value="Planserv">Planserv</mat-option>
-                                <mat-option value="outro">Outro</mat-option>
+                                <mat-option value="Outro">Outro</mat-option>
                             </mat-select>
                         </div>
                         <br>
@@ -564,24 +555,23 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label>Foto da carteirinha do plano</label>
-                            <input type="file" formControlName='HIPhoto' class="form-control">
+                            <!-- <input type="file" formControlName='HIPhoto' class="form-control"> -->
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" formControlName='HIPhoto' (change) = "onHIPhotoChange($event.target.files)">
+                                <label class="custom-file-label" #HIlabelImport for="HIPhoto"><i class="fas fa-search"></i> Escolha um arquivo</label>
+                            </div>
                         </div>
+                    </div>
+                    <br>
+                    <div class="row justify-content-around">
+                        <button class='btn btn-primary' type='submit' (click)="changePage(-1); scrollToTop()" >Anterior</button>
+                        <button class='btn btn-primary' type='submit' (click)="registerUser()" [disabled]="!form6.valid">Finalizar cadastro</button>
                     </div>
                 </div>
             </form>
-           
-            
-
-            
-        
-        
         <br>
     </div>
 </section>
-<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
- <!-- <button class='btn btn-primary' type='submit' (click)="registerUser()" [disabled]="!userForm.valid">Finalizar cadastro</button> -->
-
-
-
 
 </div>
+</ng-template>

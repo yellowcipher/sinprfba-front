@@ -32,14 +32,14 @@ export interface UserInfo {
 	nationality?: string;
 	identityNumber: string;
 	identityInstitution: string;
-	ctps: string;
-	OAB: string;
 	professionalIdentity: string;
 	admissionDate: string;
 	stockingstation: string;
 	bloodType: string;
 	bloodRH: string;
+	hasDependants: boolean;
 	dependant: Dependant;
+	healthInsurance: HealthInsurance;
 }
 
 export interface Address {
@@ -59,4 +59,11 @@ export interface Dependant {
 	birthdate: string;
 	phone: PhoneNumber;
 	email: string;
+}
+
+export interface HealthInsurance {
+	HIOperator?: string;
+	HIName?: string;
+	HINumber?: string;
+	HIPhoto?: string;
 }
